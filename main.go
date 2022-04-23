@@ -28,7 +28,4 @@ func main() {
         nodes.Server()
     }
 
-    // if arg[1] == "Client" {
-    //     nodes.Client()
-    // }
 }

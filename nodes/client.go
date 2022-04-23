@@ -8,8 +8,8 @@ import (
 )
 
 func Client(source string) {
-	// source := "./aFile"
-	target := "./file1"
+	// source := "../tmp/aFile"
+	target := "../tmp/file1"
 	address := "localhost:4040"
 	uploadFile(source, address)
 	downloadFile(target, address)

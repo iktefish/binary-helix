@@ -8,8 +8,8 @@ import (
 )
 
 func Server() {
-	target := "../tmp/in/"
-	source := "../tmp/out/"
+	target := "../tmp/"
+	source := "../tmp/test-cli-ser-exchange"
 	address := "localhost:4040"
 
 	/* Server start listenning */
