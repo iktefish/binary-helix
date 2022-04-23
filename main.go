@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/iktefish/binary-helix/analyser"
-	"github.com/iktefish/binary-helix/utils"
 	"os"
+
+	"github.com/iktefish/binary-helix/analyser"
+	"github.com/iktefish/binary-helix/nodes"
+	"github.com/iktefish/binary-helix/utils"
 )
 
 func main() {
@@ -21,4 +23,8 @@ func main() {
 	if arg[1] == "Read" {
 		utils.Reader("test/input/phix.fa")
 	}
+
+    if arg[1] == "Server" {
+        nodes.Server()
+    }
 }
