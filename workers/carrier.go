@@ -40,7 +40,7 @@ func Carrier(c <-chan []byte, lc int) bool {
 							log.Fatal("Failed to write to temp file", err)
 						}
 
-						nodes.Client(tmpFile.Name())
+						nodes.Client()
 
 						time.Sleep(1500 * time.Millisecond) // NOTE: For debugging and testing!
 

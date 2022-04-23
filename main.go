@@ -24,8 +24,11 @@ func main() {
 		workers.Reader("test/input/phix.fa")
 	}
 
-    if arg[1] == "Server" {
-        nodes.Server()
-    }
+	if arg[1] == "Server" {
+		nodes.Server()
+	}
 
+	if arg[1] == "Client" {
+		nodes.Client()
+	}
 }
