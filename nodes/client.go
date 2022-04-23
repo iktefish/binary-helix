@@ -7,10 +7,10 @@ import (
 	"os"
 )
 
-func Client() {
-	source := "./aFile"
+func Client(source string) {
+	// source := "./aFile"
 	target := "./file1"
-	address := "localhost:4041"
+	address := "localhost:4040"
 	uploadFile(source, address)
 	downloadFile(target, address)
 }

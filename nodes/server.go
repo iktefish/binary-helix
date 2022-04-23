@@ -10,7 +10,7 @@ import (
 func Server() {
 	target := "../tmp/in/"
 	source := "../tmp/out/"
-	address := "localhost:4041"
+	address := "localhost:4040"
 
 	/* Server start listenning */
 	server, err := net.Listen("tcp", address)

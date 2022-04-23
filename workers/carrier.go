@@ -1,7 +1,8 @@
-package utils
+package workers
 
 import (
 	"fmt"
+	"github.com/iktefish/binary-helix/nodes"
 	"io/ioutil"
 	"log"
 	"os"
@@ -12,7 +13,7 @@ import (
 func Carrier(c <-chan []byte, lc int) bool {
 	go func() {
 		gs := <-c
-		nodeCount := 2 // TODO: Create a function that gets nodeCount
+		nodeCount := 2 // TODO: Create a function that gets nodeCount. TODO: Use WaitGroups.
 		// 1. Split for fasta
 		counter := 1
 		start := 0
@@ -38,6 +39,10 @@ func Carrier(c <-chan []byte, lc int) bool {
 						if _, err = tmpFile.Write(split); err != nil {
 							log.Fatal("Failed to write to temp file", err)
 						}
+
+						nodes.Client(tmpFile.Name())
+
+						time.Sleep(1500 * time.Millisecond) // NOTE: For debugging and testing!
 
 						defer os.Remove(tmpFile.Name())
 					}()
