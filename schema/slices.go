@@ -1,9 +1,9 @@
 package schema
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+// import "go.mongodb.org/mongo-driver/bson/primitive"
 
-type Split struct {
-	ID          primitive.ObjectID `bson:"_id,omitempty"`
+type Slices struct {
+	// ID          primitive.ObjectID `bson:"_id,omitempty"`
 	SplitOrder  int32              `bson:"split_order,omitempty"`
 	Content     string             `bson:"content,omitempty"`
     AnalysisArt Analysis           `bson:"analysis_art,omitempty"` // NOTE: Art for Artifact
