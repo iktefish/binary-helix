@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/rpc"
 )
@@ -22,4 +23,6 @@ func main() {
     var response string
 
     client.Call("API.GetByName", s, &response)
+
+    fmt.Println("response ~~> ", response)
 }
