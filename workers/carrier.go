@@ -2,7 +2,6 @@ package workers
 
 import (
 	"fmt"
-	"github.com/iktefish/binary-helix/nodes"
 	"io/ioutil"
 	"log"
 	"os"
@@ -40,7 +39,7 @@ func Carrier(c <-chan []byte, lc int) bool {
 							log.Fatal("Failed to write to temp file", err)
 						}
 
-						nodes.Client()
+						// nodes.Client()
 
 						time.Sleep(1500 * time.Millisecond) // NOTE: For debugging and testing!
 
