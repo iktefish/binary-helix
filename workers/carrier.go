@@ -1,59 +1,61 @@
 package workers
 
 import (
-	"fmt"
-	"io/ioutil"
 	"log"
-	"os"
-	"strings"
-	"time"
+	"sync"
+
+	"github.com/google/uuid"
+	"github.com/iktefish/binary-helix/schema"
+	"github.com/iktefish/binary-helix/utils"
 )
 
-func Carrier(c <-chan []byte, lc int) bool {
-	go func() {
-		gs := <-c
-		nodeCount := 2 // TODO: Create a function that gets nodeCount. TODO: Use WaitGroups.
-		// 1. Split for fasta
-		counter := 1
-		start := 0
-		for i, b := range gs {
-			if b == byte(10) {
-				if counter == lc/nodeCount {
-					fmt.Println("start ~~> ", start)
-					fmt.Println("i ~~> ", i)
-					split := gs[start:i]
+/* This function will send the splits to the Db and servers simultaneously */
+func Carrier(ss []string, an string) bool {
+	var wg sync.WaitGroup
+	wg.Add(len(ss))
 
-					if len(gs[i:]) < lc/nodeCount {
-						split = gs[start:]
-					}
+	if utils.Verify_AnalysisName(an) != true {
+		log.Fatal("FAIL: No such analysis present!")
+	}
 
-					fmt.Println("string(split) ~~> ", strings.TrimSpace(strings.TrimSuffix(string(split), "\n"))) // Trim everything 😂
+	computationId := uuid.New().String()
+	analysisArt := schema.Analysis{
+		Task:         an,
+		TargetIP:     "172.17.0.2",
+		Completed:    false,
+		Paid:         false,
+		UnitOutput:   "",
+		MergedOutput: "",
+	}
+	for i, s := range ss {
+		go splitToDb(i, s, &wg, computationId, analysisArt)
+	}
 
-					go func() {
-						tmpFile, err := ioutil.TempFile("./tmp/", "prefix-")
-						if err != nil {
-							log.Fatal("Cannot create temp file", err)
-						}
-
-						if _, err = tmpFile.Write(split); err != nil {
-							log.Fatal("Failed to write to temp file", err)
-						}
-
-						// nodes.Client()
-
-						time.Sleep(1500 * time.Millisecond) // NOTE: For debugging and testing!
-
-						defer os.Remove(tmpFile.Name())
-					}()
-					counter = 0
-					start = i
-				}
-				counter += 1
-			}
-		}
-
-		// 2. Split for fastq
-	}()
-	time.Sleep(500 * time.Millisecond) // NOTE: For debugging and testing!
+	wg.Wait()
 	return true
 }
+
+func splitToDb(i int, s string, wg *sync.WaitGroup, cId string, aArt schema.Analysis) {
+	defer wg.Done()
+
+	client, ctx := utils.ConnectDb()
+	defer client.Disconnect(ctx)
+
+	slicesDb := client.Database("slices_db")
+	slices := slicesDb.Collection("slices")
+
+	slice := schema.Slices{
+		ComputationId: cId,
+		SplitOrder:    int32(i + 1),
+		Content:       s,
+		AnalysisArt:   aArt,
+	}
+
+	/* Insert slice in slices collection */
+	_, err := slices.InsertOne(ctx, slice)
+	utils.HandleError(err)
+}
+
+// func splitToServer() {
+//
+// }
