@@ -45,7 +45,7 @@ func Admin_DummyInBenchmarks() {
 		HandleError(err)
 	}
 	for _, r := range results {
-		fmt.Printf("\nSTART dummy data test ==========\nID: %v\nCollection: 'benchmarks'\nDatabase: 'bench_db'\nDocument: %v\nEND ============================\n\n",
+        fmt.Printf("\nSTART: ['benchmarks' DUMMY DATA TEST] ~~~~~~~~~~\nID: %v\nCollection: 'benchmarks'\nDatabase: 'bench_db'\nDocument: %v\nEND ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n",
 			benchmarkInsertResult.InsertedID, r)
 	}
 

@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"github.com/google/uuid"
 	"github.com/iktefish/binary-helix/schema"
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -19,8 +20,9 @@ func CheckSplitDup() bool {
 
 	/* NOTE: This will be taken from Carrier() */
 	RegisterSlice := schema.Slices{
-		SplitOrder: 1,
-		Content:    content,
+		ComputationId: uuid.New().String(),
+		SplitOrder:    1,
+		Content:       content,
 		AnalysisArt: schema.Analysis{
 			Task:         task,
 			TargetIP:     targetIp,

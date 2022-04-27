@@ -17,6 +17,7 @@ func CheckNodeDup() bool {
 	RegisterNode := schema.Nodes{
 		NodeName:                "binary-helix_c1",
 		TargetIP:                "172.17.0.2",
+		Active:                  true,
 		TotalCreditAttained:     0,
 		TaskCompletionFrequency: 0,
 	}

@@ -16,6 +16,7 @@ func Admin_DummyInComputeNodes() {
 	dummy := schema.Nodes{
 		NodeName:                "DUMMY",
 		TargetIP:                "DUMMY",
+		Active:                  true,
 		TotalCreditAttained:     0,
 		TaskCompletionFrequency: 0,
 	}
@@ -35,7 +36,7 @@ func Admin_DummyInComputeNodes() {
 		HandleError(err)
 	}
 	for _, r := range results {
-		fmt.Printf("\nSTART dummy data test ==========\nID: %v\nCollection: 'compute_nodes'\nDatabase: 'nodes_db'\nDocument: %v\nEND ============================\n\n",
+		fmt.Printf("\nSTART: ['compute_nodes' DUMMY DATA TEST] ~~~~~~~\nID: %v\nCollection: 'compute_nodes'\nDatabase: 'nodes_db'\nDocument: %v\nEND ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n",
 			nodeInsertResult.InsertedID, r)
 	}
 

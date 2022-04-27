@@ -14,8 +14,9 @@ func Admin_DummyInSlices() {
 	slices := slicesDb.Collection("slices")
 
 	dummy := schema.Slices{
-		SplitOrder: 1,
-		Content:    "DUMMY",
+		ComputationId: "DUMMY",
+		SplitOrder:    1,
+		Content:       "DUMMY",
 		AnalysisArt: schema.Analysis{
 			Task:         "DUMMY",
 			TargetIP:     "DUMMY",
@@ -41,7 +42,7 @@ func Admin_DummyInSlices() {
 		HandleError(err)
 	}
 	for _, r := range results {
-		fmt.Printf("\nSTART dummy data test ==========\nID: %v\nCollection: 'slices'\nDatabase: 'slices_db'\nDocument: %v\nEND ============================\n\n",
+		fmt.Printf("\nSTART: ['slices' DUMMY DATA TEST] ~~~~~~~~~~~~~~\nID: %v\nCollection: 'slices'\nDatabase: 'slices_db'\nDocument: %v\nEND ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n",
 			sliceInsertResult.InsertedID, r)
 	}
 
