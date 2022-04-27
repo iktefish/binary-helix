@@ -1,10 +1,10 @@
 package schema
 
 type Analysis struct {
-	Task         string `bson:"task,omitempty"`
-	TargetIP     string `bson:"target_ip,omitempty"`
-	Completed    bool   `bson:"completed,omitempty"`
-	Paid         bool   `bson:"paid,omitempty"`
+	Task         string `bson:"task"`
+	TargetIP     string `bson:"target_ip"`
+	Completed    bool   `bson:"completed"`
+	Paid         bool   `bson:"paid"`
 	UnitOutput   string `bson:"unit_output,omitempty"`
 	MergedOutput string `bson:"merged_output,omitempty"`
 }
