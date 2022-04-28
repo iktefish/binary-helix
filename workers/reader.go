@@ -1,6 +1,7 @@
 package workers
 
 import (
+	"fmt"
 	"io/ioutil"
 	"sync"
 
@@ -17,6 +18,7 @@ func Reader(path string) (string, []byte, int) {
 
 	genome, err := ioutil.ReadFile(path)
 	if err != nil {
+        fmt.Println("FAIL: Please enter a proper path to a file!")
 		utils.HandleError(err)
 	}
 

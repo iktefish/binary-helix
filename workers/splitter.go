@@ -13,7 +13,7 @@ func Splitter(p string, b []byte, lc int) []string {
 
 	var splits []string
 
-	nodeCount := utils.Get_ActiveNodes()
+	nodeCount := utils.Get_ActiveNodeCount()
 	if nodeCount == 0 {
 		log.Fatal("FAIL [PANIC]: No compute nodes are active!")
 	}
