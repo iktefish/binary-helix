@@ -16,14 +16,14 @@ func CheckNodeDup() bool {
 	/* NOTE: This will be taken from user-input */
 	RegisterNode := schema.Nodes{
 		NodeName:                "binary-helix_c1",
-		TargetIP:                "172.17.0.2",
+		TargetIP_Port:                "172.17.0.2",
 		Active:                  true,
 		TotalCreditAttained:     0,
 		TaskCompletionFrequency: 0,
 	}
 
 	/* Check for duplicate IP */
-	cursor, err := computeNodes.Find(ctx, bson.M{"target_ip": RegisterNode.TargetIP})
+	cursor, err := computeNodes.Find(ctx, bson.M{"target_ip_port": RegisterNode.TargetIP_Port})
 	HandleError(err)
 	defer cursor.Close(ctx)
 	var results []schema.Nodes

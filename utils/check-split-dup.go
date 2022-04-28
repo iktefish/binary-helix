@@ -25,7 +25,7 @@ func CheckSplitDup() bool {
 		Content:       content,
 		AnalysisArt: schema.Analysis{
 			Task:         task,
-			TargetIP:     targetIp,
+			TargetIP_Port:     targetIp,
 			Completed:    false,
 			Paid:         false,
 			UnitOutput:   "",

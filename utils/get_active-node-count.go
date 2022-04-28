@@ -5,13 +5,14 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func Get_ActiveNodes() []schema.Nodes {
+func Get_ActiveNodeCount() int {
 	client, ctx := ConnectDb()
 	defer client.Disconnect(ctx)
 
 	nodesDb := client.Database("nodes_db")
 	computeNodes := nodesDb.Collection("compute_nodes")
 
+	/* Query computeDB database */
 	cursor, err := computeNodes.Find(ctx, bson.M{"active": true})
 	HandleError(err)
 
@@ -23,5 +24,5 @@ func Get_ActiveNodes() []schema.Nodes {
 		HandleError(err)
 	}
 
-    return results
+	return len(results)
 }

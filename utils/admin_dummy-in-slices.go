@@ -18,12 +18,12 @@ func Admin_DummyInSlices() {
 		SplitOrder:    1,
 		Content:       "DUMMY",
 		AnalysisArt: schema.Analysis{
-			Task:         "DUMMY",
-			TargetIP:     "DUMMY",
-			Completed:    false,
-			Paid:         false,
-			UnitOutput:   "DUMMY",
-			MergedOutput: "DUMMY",
+			Task:          "DUMMY",
+			TargetIP_Port: "DUMMY",
+			Completed:     false,
+			Paid:          false,
+			UnitOutput:    "DUMMY",
+			MergedOutput:  "DUMMY",
 		},
 	}
 

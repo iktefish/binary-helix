@@ -1,16 +1,19 @@
 package utils
 
-func Verify_AnalysisName(s string) bool {
-	var analysisPresent = [5]string{
-		"longest-common-prefix",
-		"total-bases-of-each",
-		"complement",
-		"reverse-complement",
-		"quality-scores",
-	}
+var AnalyserList = [8]string{
+	"boyer-moore",
+	"complement",
+	"reverse-complement",
+	"exact-match",
+	"k-mer-index",
+	"longest-common-prefix",
+	"quality-scores",
+	"total-bases-of-each",
+}
 
-	for _, a := range analysisPresent {
-		if s == a {
+func Check_AnalyzerList(an string) bool {
+	for _, a := range AnalyserList {
+		if an == a {
 			return true
 		}
 	}

@@ -15,7 +15,7 @@ func Admin_DummyInComputeNodes() {
 
 	dummy := schema.Nodes{
 		NodeName:                "DUMMY",
-		TargetIP:                "DUMMY",
+		TargetIP_Port:                "DUMMY",
 		Active:                  true,
 		TotalCreditAttained:     0,
 		TaskCompletionFrequency: 0,

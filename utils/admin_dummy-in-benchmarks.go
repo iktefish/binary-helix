@@ -17,7 +17,7 @@ func Admin_DummyInBenchmarks() {
 
 	dummy := schema.Bench{
 		NodeName:      "DUMMY",
-		TargetIP:      "DUMMY",
+		TargetIP_Port:      "DUMMY",
 		NetSpeedToS:   0,
 		NetSpeedFromS: 0,
 		RamTotal:      0,
