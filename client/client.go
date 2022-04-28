@@ -2,7 +2,6 @@ package client
 
 import (
 	"fmt"
-	"log"
 	"net/rpc"
 	"sync"
 
@@ -27,9 +26,7 @@ both server and client.
 // 	var response string
 //
 // 	client.Call("API.GetByName", s, &response)
-//
-// 	fmt.Println("response ~~> ", response)
-// }
+// fmt.Println("response ~~> ", response) }
 
 func CheckServers() {
 	var client *rpc.Client
@@ -42,23 +39,22 @@ func CheckServers() {
 		nodes = utils.Get_ActiveNodes()
 	}
 
-	for i := 0; i <= nodeCount; i++ {
+	for i := 0; i < nodeCount; i++ {
 		client, err = rpc.DialHTTP("tcp", nodes[i].TargetIP_Port)
 		if err != nil {
 			utils.HandleError(err)
 		}
 
-		isAlive := false
-		var response bool
+		isAlive := "Dead"
+
+		TestCritical := []string{"1","2","3","4","5"}
+
+		var response string
 
 		client.Call("API.ImAlive", isAlive, &response)
+		client.Call("API.GetByName", TestCritical, &response)
 
-		if response != true {
-			fmt.Println("FAIL: Server not responding!")
-			log.Fatal("FAIL: Node appears to be dead!")
-		}
-
-		fmt.Printf("Response from %v ~~> %v", nodes[i].TargetIP_Port, response)
+		fmt.Printf("Response from %v ~~> %v\n", nodes[i].TargetIP_Port, response)
 	}
 }
 
@@ -77,17 +73,17 @@ func RegisterNode(ip_port string, node_name string) bool {
 	go func() {
 		defer wg.Done()
 		client.Call("API.ImAlive", isAlive, &response)
-
-		// client.Call("API.GetByName", s, &response)
 	}()
 	wg.Wait()
+
 	if response != "true" {
-	// if response != "Pee Kaa Boo" {
 		fmt.Println("FAIL: Server not responding!")
 		fmt.Println("HELP: Please make sure the IP & Port are correct and that the server is running.")
 		fmt.Println("NOTE: Please make sure that the port is open.")
 		return false
 	}
+
+	fmt.Printf("Response from %v ~~> %v", ip_port, response)
 
 	dbclient, ctx := utils.ConnectDb()
 	defer dbclient.Disconnect(ctx)
@@ -100,6 +96,11 @@ func RegisterNode(ip_port string, node_name string) bool {
 		TargetIP_Port:       ip_port,
 		TotalCreditAttained: 0,
 		Active:              true,
+	}
+
+	if utils.Verify_NodeNoDup(ip_port, node_name) != true {
+		fmt.Println("FAIL: An individual host cannot register as more then 1 node!")
+		return false
 	}
 
 	/* Insert node in compute_nodes collection */

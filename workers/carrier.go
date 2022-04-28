@@ -79,5 +79,5 @@ func splitToDb(i int, s string, wg *sync.WaitGroup, cId string, aArt schema.Anal
 func splitToServer(i, int, s string, wg *sync.WaitGroup, cId string, aArt schema.Analysis) {
 	defer wg.Done()
 
-	client.CheckServers()
+	// client.CheckServers()
 }
