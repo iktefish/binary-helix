@@ -8,7 +8,7 @@ import (
 )
 
 func ConnectDb() (*mongo.Client, context.Context) {
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://172.17.0.3:27017"))
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://172.17.0.2:27017"))
 	HandleError(err)
 
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)

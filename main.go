@@ -65,11 +65,12 @@ func main() {
 	if arg[1] == "Read" {
 		// path := "test/input/phix.fa"
 		// path := "./test/input/sra_data.fastq"
-		path := "./test/input/small_sra_data.fastq"
 
-		fileExt, processed, lineCount := workers.Reader(path)
-		splits := workers.Splitter(fileExt, processed, lineCount)
-		workers.Carrier(splits, "quality-scores")
+		// path := "./test/input/small_sra_data.fastq"
+
+		// fileExt, processed, lineCount := workers.Reader(path)
+		// splits := workers.Splitter(fileExt, processed, lineCount)
+		// workers.Carrier(splits, "quality-scores")
 	}
 
 	if arg[1] == "Qual" {
@@ -114,7 +115,31 @@ func main() {
 
 	/* Help */
 	if strings.ToLower(arg[1]) == "help" {
-		fmt.Println("Here's help!!!")
+        fmt.Println("")
+        fmt.Println("INTRODUCTION:")
+        fmt.Println("")
+        fmt.Println("\t Welcome to Binary Helix, a distributed Genome analysis system powered by SliceCoin.")
+        fmt.Println("")
+        fmt.Println("\t Using this system, you can allow scientists, researchers and engineers from all over")
+        fmt.Println("\t the world to use a tiny fraction of you smartphone/desktop/leptops' computational power")
+        fmt.Println("\t for the purpose of analysing DNA sequences. Doing so you can be a part of may glorious")
+        fmt.Println("\t individuals who contribute to seeking, and helping others seek, a greater understanding of")
+        fmt.Println("\t things such as Cancer, Down's Syndrome, Aging, Genetic Psychiatric Conditions, Evolution,")
+        fmt.Println("\t Language, etc.")
+        fmt.Println("")
+        fmt.Println("\t You will of-course be paid for donating your computation to the service of science.")
+        fmt.Println("")
+        fmt.Println("COMMANDS:")
+        fmt.Println("")
+        fmt.Println("\t binary-helix help\t\t\t\t\t--> Outputs information on how to use this CLI")
+        fmt.Println("\t binary-helix register-node IP:PORT\t\t\t--> Registers your device as a server-node to donate computation.")
+        fmt.Println("\t binary-helix check-nodes\t\t\t\t--> Outputs the Complement of the DNA of an input .fa file.")
+        fmt.Println("\t binary-helix complement FILE\t\t\t\t--> Outputs the Complement of the DNA of an input .fa file.")
+        fmt.Println("\t binary-helix reverse-complement FILE\t\t\t--> Outputs the Reverse Complement of the DNA of an input .fa file.")
+        fmt.Println("\t binary-helix boyer-moore FILE PATTERN\t\t\t--> Performs Boyer-Moors searching algorithm on an input .fastq file")
+        fmt.Println("\t binary-helix server\t\t\t\t\t--> Starts the server on port `4040`, turning your device into a supercomputer node.")
+        fmt.Println("\t binary-helix admin_clear-db\t\t\t\t--> Clear EVERY item on the database. USE WITH CAUTION!")
+        fmt.Println("")
 	}
 
 	/* Register Node */
@@ -137,7 +162,13 @@ func main() {
 		client.CheckServers()
 	}
 
-	/* Check Nodes */
+	/* Start server */
+	if strings.ToLower(arg[1]) == "server" {
+		server.Server()
+	}
+
+
+	/* Admin_ Clear Database */
 	if strings.ToLower(arg[1]) == "admin_clear-db" {
 		dbs := [4]string{
 			"nodes_db",
@@ -172,7 +203,8 @@ func main() {
 	}
 
 	/* Boyer-Moore */
-	if strings.ToLower(arg[1]) == utils.AnalyserList[0] {
+	// if strings.ToLower(arg[1]) == utils.AnalyserList[0] {
+	if strings.ToLower(arg[1]) == "boyer-moore" {
         if len(arg) != 4 {
 			fmt.Println("FAIL: Please provide proper list of arguments!")
 			fmt.Println("Type `binary-helix help` for more information.")
@@ -186,6 +218,31 @@ func main() {
 		fileExt, processed, lineCount := workers.Reader(path)
 		splits := workers.Splitter(fileExt, processed, lineCount)
 		workers.Carrier(splits, utils.AnalyserList[0], p)
+
+		// fmt.Println(lineCount)
+		// fmt.Println(path)
+		// fmt.Println(p)
+
+		// pBM := types.ConstructBM(p)
+		// fmt.Println(pBM.Bad_Character_Rule(2, "T"))
+		// fmt.Println(analyser.BoyerMoore(p, pBM, t))
+	}
+
+	/* Complement */
+	if strings.ToLower(arg[1]) == "complement" {
+        if len(arg) > 3 {
+			fmt.Println("FAIL: Please provide proper list of arguments!")
+			fmt.Println("Type `binary-helix help` for more information.")
+
+            return
+        }
+
+		path := arg[2]
+        p := ""
+
+		fileExt, processed, lineCount := workers.Reader(path)
+		splits := workers.Splitter(fileExt, processed, lineCount)
+		workers.Carrier(splits, utils.AnalyserList[1], p)
 
 		// fmt.Println(lineCount)
 		// fmt.Println(path)

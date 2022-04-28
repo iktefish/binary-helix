@@ -12,8 +12,8 @@ import (
 )
 
 /* This function will send the splits to the Db and servers simultaneously */
-func Carrier(ss []string, an string, others ...string) bool {
-	fmt.Println("others ~~> ", others)
+func Carrier(ss []string, an string, extra string) bool {
+	fmt.Println("extra ~~> ", extra)
 	var wg sync.WaitGroup
 	// wg.Add(len(ss))
 
@@ -54,7 +54,7 @@ func Carrier(ss []string, an string, others ...string) bool {
 
 	for i, s := range ss {
 	    wg.Add(1)
-		go splitToServer(i, s, &wg, computationId, analysisArts[i])
+		go splitToServer(i, s, &wg, computationId, analysisArts[i], extra)
 	}
 
 	wg.Wait()
@@ -82,14 +82,14 @@ func splitToDb(i int, s string, wg *sync.WaitGroup, cId string, aArt schema.Anal
 	utils.HandleError(err)
 }
 
-func splitToServer(i int, s string, wg *sync.WaitGroup, cId string, aArt schema.Analysis) {
+func splitToServer(i int, s string, wg *sync.WaitGroup, cId string, aArt schema.Analysis, extra string) {
 	defer wg.Done()
 	// var wgN sync.WaitGroup
 	// wgN.Add(1)
 
 	// go func() {
         // defer wgN.Done()
-		client.TaskServer(string(i), s, cId, aArt)
+		client.TaskServer(string(i), s, cId, aArt, extra)
 	// }()
 
     // wgN.Wait()

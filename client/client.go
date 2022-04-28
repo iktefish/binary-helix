@@ -107,11 +107,15 @@ func RegisterNode(ip_port string, node_name string) bool {
 	return true
 }
 
-func TaskServer(i string, s string, cId string, aArt schema.Analysis) {
+func TaskServer(i string, s string, cId string, aArt schema.Analysis, extra string) {
 	nodes := utils.Get_ActiveNodes()
 
 	var inList []string
-	inList = append(inList, i, s, cId)
+	inList = append(inList, i, s, cId, extra)
+
+    for i, iL := range inList {
+        fmt.Println(i,">> ", iL)
+    }
 	fmt.Println("->", inList)
 	fmt.Println("->", len(inList))
 
@@ -123,19 +127,17 @@ func TaskServer(i string, s string, cId string, aArt schema.Analysis) {
 
 		var response string
 
-		// go func() {
-		// 	defer wg.Done()
-		client.Call("API.CallComplement", inList[1], &response)
-		// }()
-		// wg.Wait()
+		if aArt.Task == utils.AnalyserList[0] {
+			client.Call("API.CallBoyerMoore", inList, &response)
+		}
 
-        fmt.Println(":::", response)
+		fmt.Println("[0] :::", response)
 
-		// if response != "Alive" {
-		// 	fmt.Println("FAIL: Server not responding!")
-		// 	fmt.Println("HELP: Please make sure the IP & Port are correct and that the server is running.")
-		// 	fmt.Println("NOTE: Please make sure that the port is open.")
-		// }
+		if aArt.Task == utils.AnalyserList[1] {
+			client.Call("API.CallComplement", inList[1], &response)
+		}
+
+		fmt.Println("[1] :::", response)
 	}
 
 }

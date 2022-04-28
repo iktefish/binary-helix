@@ -1,6 +1,12 @@
 package server
 
-import "github.com/iktefish/binary-helix/analyser"
+import (
+	"fmt"
+	"strings"
+
+	"github.com/iktefish/binary-helix/analyser"
+	"github.com/iktefish/binary-helix/types"
+)
 
 /* NOTE:
 Criteria for Remote Procedure Calls: (refer to the manual for details)
@@ -41,6 +47,15 @@ func (a *API) CallComplement(argFromCaller string, resultFromFunction *string) e
 	// var to_be_returned string = "Alive"
 	// *resultFromFunction = to_be_returned
 	*resultFromFunction = analyser.Complement(argFromCaller)
+
+	return nil
+}
+
+func (a *API) CallBoyerMoore(argFromCaller []string, resultFromFunction *string) error {
+	pBM := types.ConstructBM(argFromCaller[3])
+    out := analyser.BoyerMoore(argFromCaller[3], pBM, argFromCaller[1])
+    send := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(out)), ""), "[]")
+	*resultFromFunction = send
 
 	return nil
 }

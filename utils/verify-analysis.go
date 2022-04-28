@@ -1,5 +1,15 @@
 package utils
 
+/* LIST:
+    boyer-moore
+	complement
+	reverse-complement
+	exact-match
+	k-mer-index
+	longest-common-prefix
+	quality-scores
+	total-bases-of-each
+*/
 var AnalyserList = [8]string{
 	"boyer-moore",
 	"complement",

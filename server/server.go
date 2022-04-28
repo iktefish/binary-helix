@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"log"
 	"net"
 	"net/http"
@@ -28,15 +27,4 @@ func Server() {
     if err != nil {
         log.Fatal("Error serving: ", err)
     }
-
-	fmt.Println("Initial query from DB here!")
-
-	chunk_1 := "Query this chunk_1"
-	chunk_2 := "Query this chunk_2"
-	chunk_3 := "Query this chunk_3"
-	fmt.Println(chunk_1, chunk_2, chunk_3)
-
-	fmt.Println("Query to add something to DB here!")
-	fmt.Println("Delete something from DB here!")
-	fmt.Println("Mod doc from DB here!")
 }
