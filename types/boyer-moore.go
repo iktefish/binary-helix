@@ -25,7 +25,7 @@ const alphabet = "ACGT"
    NOTE:
    Constructor for returning a BoyerMoore type.
 */
-func Construct(p string) BoyerMoore {
+func ConstructBM(p string) BoyerMoore {
 	B := BoyerMoore{}
 	B.Init(p)
 
