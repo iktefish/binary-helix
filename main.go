@@ -21,9 +21,9 @@ func main() {
 		return
 	}
 
-	if arg[1] == "RegisterNode" {
-		client.RegisterNode("172.17.0.3:4042", "binary-helix_c2")
-	}
+	// if arg[1] == "RegisterNode" {
+	// 	client.RegisterNode("172.17.0.3:4042", "binary-helix_c2")
+	// }
 
 	if arg[1] == "TotalBasesOfEach" {
 		As, Cs, Gs, Ts := analyser.TotalBasesOfEach()
@@ -89,14 +89,14 @@ func main() {
 	}
 
 	if arg[1] == "DB" {
-		utils.Admin_EchoDbContents("nodes_db")
-		utils.Admin_EchoDbContents("slices_db")
-		utils.Admin_EchoDbContents("bench_db")
-		utils.Admin_EchoDbContents("Hello_DB")
+		// utils.Admin_EchoDbContents("nodes_db")
+		// utils.Admin_EchoDbContents("slices_db")
+		// utils.Admin_EchoDbContents("bench_db")
+		// utils.Admin_EchoDbContents("Hello_DB")
 
-		utils.Admin_DummyInComputeNodes()
-		utils.Admin_DummyInSlices()
-		utils.Admin_DummyInBenchmarks()
+		// utils.Admin_DummyInComputeNodes()
+		// utils.Admin_DummyInSlices()
+		// utils.Admin_DummyInBenchmarks()
 
 		utils.Admin_EchoDbs()
 
@@ -105,12 +105,6 @@ func main() {
 		// utils.Admin_ClearDbAll("bench_db")
 		// utils.Admin_ClearDbAll("Hello")
 		// utils.Admin_ClearDbAll("all")
-
-		if utils.CheckNodeDup() == true {
-			fmt.Println("FAIL: An individual host cannot register as more then 1 node!")
-		} else {
-			fmt.Println("SUCCESS: No duplicate found!")
-		}
 
 		schema.Test_TimeToPrim()
 	}
@@ -128,10 +122,19 @@ func main() {
 		ip_port := arg[2]
 		node_name := arg[3]
 
-		out := client.RegisterNode(ip_port, node_name)
+		out := false
+		if node_name != "" {
+			out = client.RegisterNode(ip_port, node_name)
+		}
+
 		if out != true {
 			fmt.Println("FAIL: Registration failed!")
 		}
+	}
+
+	/* Check Nodes */
+	if strings.ToLower(arg[1]) == "check-nodes" {
+		client.CheckServers()
 	}
 
 	/* Boyer-Moore */
@@ -141,7 +144,7 @@ func main() {
 
 		fileExt, processed, lineCount := workers.Reader(path)
 		splits := workers.Splitter(fileExt, processed, lineCount)
-		workers.Carrier(splits, utils.AnalyserList[0])
+		workers.Carrier(splits, utils.AnalyserList[0], p)
 
 		fmt.Println(lineCount)
 		fmt.Println(path)

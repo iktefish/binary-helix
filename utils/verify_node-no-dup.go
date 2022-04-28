@@ -5,7 +5,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func CheckNodeDup() bool {
+func Verify_NodeNoDup(ip_port string, node_name string) bool {
 	client, ctx := ConnectDb()
 	defer client.Disconnect(ctx)
 
@@ -15,8 +15,8 @@ func CheckNodeDup() bool {
 
 	/* NOTE: This will be taken from user-input */
 	RegisterNode := schema.Nodes{
-		NodeName:                "binary-helix_c1",
-		TargetIP_Port:                "172.17.0.2",
+		NodeName:                node_name,
+		TargetIP_Port:           ip_port,
 		Active:                  true,
 		TotalCreditAttained:     0,
 		TaskCompletionFrequency: 0,
@@ -32,8 +32,8 @@ func CheckNodeDup() bool {
 	}
 
 	if len(results) > 0 {
-		return true
-	} else {
 		return false
+	} else {
+		return true
 	}
 }
