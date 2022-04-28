@@ -8,7 +8,7 @@ import (
 
 type Bench struct {
 	NodeName      string             `bson:"node_name,omitempty"`
-	TargetIP      string             `bson:"target_ip,omitempty"`
+	TargetIP_Port string             `bson:"target_ip_port,omitempty"`
 	NetSpeedToS   int32              `bson:"net_speed_to_s,omitempty"`
 	NetSpeedFromS int32              `bson:"net_speed_from_s,omitempty"`
 	RamTotal      int64              `bson:"ram_usage,omitempty"`
