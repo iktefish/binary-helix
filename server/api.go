@@ -2,10 +2,13 @@ package server
 
 import (
 	"fmt"
+	// "reflect"
+	"strconv"
 	"strings"
 
 	"github.com/iktefish/binary-helix/analyser"
 	"github.com/iktefish/binary-helix/types"
+	"github.com/iktefish/binary-helix/utils"
 )
 
 /* NOTE:
@@ -51,10 +54,56 @@ func (a *API) CallComplement(argFromCaller string, resultFromFunction *string) e
 	return nil
 }
 
+func (a *API) CallReverseComplement(argFromCaller string, resultFromFunction *string) error {
+	// var to_be_returned string = analyser.Complement(argFromCaller[0])
+	// var to_be_returned string = "Alive"
+	// *resultFromFunction = to_be_returned
+	*resultFromFunction = analyser.ReverseComplement(argFromCaller)
+
+	return nil
+}
+
+func (a *API) CallExactMatch(argFromCaller []string, resultFromFunction *string) error {
+	out := analyser.ExactMatch(argFromCaller[3], argFromCaller[1])
+	send := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(out)), " "), "[]")
+	*resultFromFunction = send
+
+	return nil
+}
+
+func (a *API) CallKMer(argFromCaller []string, resultFromFunction *string) error {
+	strVar := argFromCaller[3]
+	intVar, err := strconv.Atoi(strVar)
+	utils.HandleError(err)
+	// fmt.Println(intVar, err, reflect.TypeOf(intVar))
+
+	out := analyser.ConstructIA(argFromCaller[1], intVar)
+
+	var new []string
+	for _, v := range out.I {
+		sVal := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(v.Val)), " "), "[]")
+		new = append(new, v.Key, ":", sVal, "., ")
+	}
+	send := strings.Join(new, ".")
+
+	// send := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(out)), " "), "[]")
+	*resultFromFunction = send
+
+	return nil
+}
+
+func (a *API) CallLongestCommonPrefix(argFromCaller []string, resultFromFunction *string) error {
+	out := analyser.LongestCommonPrefix(argFromCaller[1], argFromCaller[3])
+	// send := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(out)), " "), "[]")
+	*resultFromFunction = out
+
+	return nil
+}
+
 func (a *API) CallBoyerMoore(argFromCaller []string, resultFromFunction *string) error {
 	pBM := types.ConstructBM(argFromCaller[3])
-    out := analyser.BoyerMoore(argFromCaller[3], pBM, argFromCaller[1])
-    send := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(out)), ""), "[]")
+	out := analyser.BoyerMoore(argFromCaller[3], pBM, argFromCaller[1])
+	send := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(out)), " "), "[]")
 	*resultFromFunction = send
 
 	return nil

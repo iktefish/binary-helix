@@ -43,7 +43,7 @@ func indexSort(idx []Index, depth int) {
 	}
 }
 
-func (IA *IndexArt) query(p string) []int {
+func (IA *IndexArt) QueryKMer(p string) []int {
 	var hits []int
 	kmer := p[:IA.K]
 

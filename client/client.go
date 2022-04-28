@@ -113,11 +113,12 @@ func TaskServer(i string, s string, cId string, aArt schema.Analysis, extra stri
 	var inList []string
 	inList = append(inList, i, s, cId, extra)
 
-    for i, iL := range inList {
-        fmt.Println(i,">> ", iL)
-    }
+	for i, iL := range inList {
+		fmt.Println(i, ">> ", iL)
+	}
 	fmt.Println("->", inList)
 	fmt.Println("->", len(inList))
+	fmt.Println("Task->", aArt.Task)
 
 	for _, n := range nodes {
 		client, err := rpc.DialHTTP("tcp", n.TargetIP_Port)
@@ -130,14 +131,36 @@ func TaskServer(i string, s string, cId string, aArt schema.Analysis, extra stri
 		if aArt.Task == utils.AnalyserList[0] {
 			client.Call("API.CallBoyerMoore", inList, &response)
 		}
-
-		fmt.Println("[0] :::", response)
+		// fmt.Println("[0] :::", response)
 
 		if aArt.Task == utils.AnalyserList[1] {
 			client.Call("API.CallComplement", inList[1], &response)
 		}
+		// fmt.Println("[1] :::", response)
 
-		fmt.Println("[1] :::", response)
+		if aArt.Task == utils.AnalyserList[2] {
+			client.Call("API.CallReverseComplement", inList[1], &response)
+		}
+		// fmt.Println("[2] :::", response)
+
+		if aArt.Task == utils.AnalyserList[3] {
+			client.Call("API.CallExactMatch", inList, &response)
+		}
+
+		if aArt.Task == utils.AnalyserList[4] {
+			client.Call("API.CallKMerIndex", inList, &response)
+		}
+
+		if aArt.Task == utils.AnalyserList[5] {
+			client.Call("API.CallLongestCommonPrefix", inList, &response)
+		}
+
+		if aArt.Task == utils.AnalyserList[7] {
+			client.Call("API.CallTotalBasesOfEach", inList[3], &response)
+		}
+
+        fmt.Println("[+]=>", response)
+
 	}
 
 }

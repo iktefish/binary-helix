@@ -3,7 +3,7 @@ package analyser
 func ExactMatch(p string, t string) []int {
 	var occurrences []int
 
-	for i := 0; i <= len(t)-len(p)+1; i++ {
+	for i := 0; i <= len(t)-len(p); i++ {
 		match := true
 		for j := range p {
 			if t[i+j] != p[j] {
