@@ -7,6 +7,7 @@ func Complement(s string) string {
 	complement["C"] = "G"
 	complement["G"] = "C"
 	complement["T"] = "A"
+	complement["N"] = "N"
 
 	c := ""
 

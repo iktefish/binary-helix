@@ -9,16 +9,15 @@
 package analyser
 
 import (
-	// "github.com/iktefish/binary-helix/utils"
+	"github.com/iktefish/binary-helix/utils"
 	"fmt"
 	"io/ioutil"
-	"log"
 )
 
 func TotalBasesOfEach() (int, int, int, int) {
 	genome, err := ioutil.ReadFile("test/input/escherichia-phage.fa")
 	if err != nil {
-		log.Fatal(err)
+        utils.HandleError(err)
 	}
 
     fmt.Println("gnome ~~> ", string(genome))
