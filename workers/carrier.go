@@ -6,7 +6,7 @@ import (
 	"sync"
 
 	"github.com/google/uuid"
-	"github.com/iktefish/binary-helix/client"
+	// "github.com/iktefish/binary-helix/client"
 	"github.com/iktefish/binary-helix/schema"
 	"github.com/iktefish/binary-helix/utils"
 )
