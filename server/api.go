@@ -34,6 +34,13 @@ func (a *API) GetByName(argFromCaller string, resultFromFunction *string) error 
 	return nil
 }
 
+func (a *API) ImAlive(argFromCaller string, resultFromFunction *string) error {
+	var to_be_returned string = "true"
+	*resultFromFunction = to_be_returned
+
+	return nil
+}
+
 func (a *API) CreateDoc(argFromCaller string, resultFromFunction *string) error {
 	/* Some DB create doc */
 
@@ -62,32 +69,31 @@ func (a *API) ModDoc(argFromCaller string, resultFromFunction *string) error {
 	return nil
 }
 
-func(a *API) DeleteDoc(argFromCaller string, resultFromFunction *string) error {
+func (a *API) DeleteDoc(argFromCaller string, resultFromFunction *string) error {
 	/* Some DB doc del command */
 
 	return nil
 }
 
 func main() {
-    var api = new(API)
-    err := rpc.Register(api)
-    if err != nil {
-        log.Fatal("Error ocurred during API registration", err)
-    }
+	var api = new(API)
+	err := rpc.Register(api)
+	if err != nil {
+		log.Fatal("Error ocurred during API registration", err)
+	}
 
-    rpc.HandleHTTP()
+	rpc.HandleHTTP()
 
-    listener, err := net.Listen("tcp", ":4040")
-    if err != nil {
-        log.Fatal("Listening error", err)
-    }
+	listener, err := net.Listen("tcp", ":4040")
+	if err != nil {
+		log.Fatal("Listening error", err)
+	}
 
-    log.Printf("Serving RPC on port %d", 4040)
-    err = http.Serve(listener, nil)
-    if err != nil {
-        log.Fatal("Error serving: ", err)
-    }
-
+	log.Printf("Serving RPC on port %d", 4040)
+	err = http.Serve(listener, nil)
+	if err != nil {
+		log.Fatal("Error serving: ", err)
+	}
 
 	fmt.Println("Initial query from DB here!")
 

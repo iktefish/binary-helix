@@ -29,7 +29,6 @@ func Server() {
         log.Fatal("Error serving: ", err)
     }
 
-
 	fmt.Println("Initial query from DB here!")
 
 	chunk_1 := "Query this chunk_1"

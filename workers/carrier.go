@@ -1,6 +1,7 @@
 package workers
 
 import (
+	"fmt"
 	"log"
 	"sync"
 
@@ -11,7 +12,8 @@ import (
 )
 
 /* This function will send the splits to the Db and servers simultaneously */
-func Carrier(ss []string, an string) bool {
+func Carrier(ss []string, an string, others ...string) bool {
+    fmt.Println("others ~~> ", others)
 	var wg sync.WaitGroup
 	wg.Add(len(ss))
 

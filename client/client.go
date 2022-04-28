@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/rpc"
+	"sync"
 
 	"github.com/iktefish/binary-helix/schema"
 	"github.com/iktefish/binary-helix/utils"
@@ -62,18 +63,28 @@ func CheckServers() {
 }
 
 func RegisterNode(ip_port string, node_name string) bool {
+	var wg sync.WaitGroup
+	wg.Add(1)
+
 	client, err := rpc.DialHTTP("tcp", ip_port)
 	if err != nil {
 		utils.HandleError(err)
 	}
 
-	isAlive := false
-	var response bool
+	isAlive := "false"
+	var response string
 
-	client.Call("API.ImAlive", isAlive, &response)
-	if response != true {
+	go func() {
+		defer wg.Done()
+		client.Call("API.ImAlive", isAlive, &response)
+
+		// client.Call("API.GetByName", s, &response)
+	}()
+	wg.Wait()
+	if response != "true" {
+	// if response != "Pee Kaa Boo" {
 		fmt.Println("FAIL: Server not responding!")
-		fmt.Println("HELP: Please make sure the IP:Port is correct and that the server is running.")
+		fmt.Println("HELP: Please make sure the IP & Port are correct and that the server is running.")
 		fmt.Println("NOTE: Please make sure that the port is open.")
 		return false
 	}
