@@ -23,5 +23,6 @@ stdenv.mkDerivation {
   buildInputs = with pkgsUnstable; [
     go
     gopls
+    graphviz
   ];
 }

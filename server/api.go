@@ -28,10 +28,12 @@ func (a *API) ImAlive(argFromCaller string, resultFromFunction *string) error {
 }
 
 func (a *API) CallBoyerMoore(argFromCaller []string, resultFromFunction *string) error {
+	// func (a *API) CallBoyerMoore(argFromCaller []string, resultFromFunction *[]int) error {
 	pBM := types.ConstructBM(argFromCaller[3])
 	out := analyser.BoyerMoore(argFromCaller[3], pBM, argFromCaller[1])
-	send := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(out)), " "), "[]")
+	send := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(out)), " : "), "[]")
 	*resultFromFunction = send
+	// *resultFromFunction = out
 
 	return nil
 }
@@ -63,19 +65,19 @@ func (a *API) CallExactMatch(argFromCaller []string, resultFromFunction *string)
 }
 
 func (a *API) CallKMer(argFromCaller []string, resultFromFunction *string) error {
-    *resultFromFunction = ""
+	*resultFromFunction = ""
 
 	return nil
 }
 
 func (a *API) CallLongestCommonPrefix(argFromCaller []string, resultFromFunction *string) error {
-    *resultFromFunction = ""
+	*resultFromFunction = ""
 
 	return nil
 }
 
 func (a *API) CallIdQual(argFromCaller []string, resultFromFunction *string) error {
-    *resultFromFunction = ""
+	*resultFromFunction = ""
 
 	return nil
 }

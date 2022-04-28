@@ -55,5 +55,5 @@ func (IA *IndexArt) QueryKMer(p string) []int {
 			hits = append(hits, IA.I[i].Val)
 		}
 	}
-    return hits
+	return hits
 }

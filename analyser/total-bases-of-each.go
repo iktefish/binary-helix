@@ -1,26 +1,18 @@
-/* TODO:
-
-- [ ] Take entire fire as arg
-- [ ] Echo From x to y segments of genome
-- [ ] Length of genome
-
-*/
-
 package analyser
 
 import (
 	"github.com/iktefish/binary-helix/utils"
-	"fmt"
+	// "fmt"
 	"io/ioutil"
 )
 
-func TotalBasesOfEach() (int, int, int, int) {
-	genome, err := ioutil.ReadFile("test/input/escherichia-phage.fa")
+func TotalBasesOfEach(path string) (int, int, int, int) {
+	genome, err := ioutil.ReadFile(path)
 	if err != nil {
         utils.HandleError(err)
 	}
 
-    fmt.Println("gnome ~~> ", string(genome))
+    // fmt.Println("gnome ~~> ", string(genome))
 
 	counts := make(map[string]int)
 

@@ -29,13 +29,13 @@ func Id_SeqQual(s []string) {
 			seqs += line
 		}
 	}
-	fmt.Println("Q~>", quals)
-	fmt.Println("S~>", seqs)
+	// fmt.Println("Q~>", quals)
+	// fmt.Println("S~>", seqs)
 
 	// get_Q(quals)
 	// get_Phred33(get_Q(quals))
-	// fmt.Println(get_Phred33(get_Q(quals)))
-	fmt.Println(get_Q(quals))
+	fmt.Println(get_Phred33(get_Q(quals)))
+	// fmt.Println(get_Q(quals))
 }
 
 func conv_Phred33ToQ(phredRune rune) int {

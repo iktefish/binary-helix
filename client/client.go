@@ -16,18 +16,6 @@ then you must define the type here too. Its best to share the type to
 both server and client.
 */
 
-// func Client() {
-// 	client, err := rpc.DialHTTP("tcp", "172.17.0.2:4040")
-// 	if err != nil {
-// 		log.Fatal("Connection error: ", err)
-// 	}
-//
-// 	s := "String from the client!"
-// 	var response string
-//
-// 	client.Call("API.GetByName", s, &response)
-// fmt.Println("response ~~> ", response) }
-
 func CheckServers() {
 	var client *rpc.Client
 	var err error
@@ -126,46 +114,73 @@ func TaskServer(i string, s string, cId string, aArt schema.Analysis, extra stri
 			utils.HandleError(err)
 		}
 
-		var response string
-
-		client.Call("API.CallGetByName", "", &response)
-
 		if aArt.Task == utils.AnalyserList[0] {
+			var response string
+			// var response []int
 			client.Call("API.CallBoyerMoore", inList, &response)
+			fmt.Println("|>", response)
+			Merger(cId, aArt, response)
 		}
-		// fmt.Println("[0] :::", response)
 
 		if aArt.Task == utils.AnalyserList[1] {
+			var response string
 			client.Call("API.CallComplement", inList[1], &response)
+			fmt.Println("|>", response)
 		}
-		// fmt.Println("[1] :::", response)
 
 		if aArt.Task == utils.AnalyserList[2] {
+			var response string
 			client.Call("API.CallReverseComplement", inList[1], &response)
+			fmt.Println("|>", response)
 		}
-		// fmt.Println("[2] :::", response)
 
 		if aArt.Task == utils.AnalyserList[3] {
+			var response string
 			client.Call("API.CallExactMatch", inList, &response)
+			fmt.Println("|>", response)
 		}
 
+		// /* INCOMPLETE */
 		// if aArt.Task == utils.AnalyserList[4] {
+		//  var response string
 		// 	client.Call("API.CallKMerIndex", inList, &response)
 		// }
 		//
 		// if aArt.Task == utils.AnalyserList[5] {
+		//  var response string
 		// 	client.Call("API.CallLongestCommonPrefix", inList, &response)
 		// }
 		//
 		// if aArt.Task == utils.AnalyserList[7] {
+		//  var response string
 		// 	client.Call("API.CallTotalBasesOfEach", inList[3], &response)
 		// }
 		// if aArt.Task == utils.AnalyserList[8] {
+		//  var response string
 		// 	client.Call("API.CallIdQual", inList, &response)
 		// }
 
-        fmt.Println("|>", response)
-
 	}
 
+}
+
+func Merger(cId string, aArt schema.Analysis, split string) {
+	client, ctx := utils.ConnectDb()
+	defer client.Disconnect(ctx)
+
+	slicesDb := client.Database("slices_db")
+	slices := slicesDb.Collection("slices")
+
+    aArt.MergedOutput = split
+
+	slice := schema.Slices{
+		ComputationId: cId,
+		SplitOrder:    1,
+		Content:       split,
+		AnalysisArt:   aArt,
+	}
+
+	/* Insert slice in slices collection */
+	_, err := slices.InsertOne(ctx, slice)
+	utils.HandleError(err)
 }
