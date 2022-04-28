@@ -128,6 +128,8 @@ func TaskServer(i string, s string, cId string, aArt schema.Analysis, extra stri
 
 		var response string
 
+		client.Call("API.CallGetByName", "", &response)
+
 		if aArt.Task == utils.AnalyserList[0] {
 			client.Call("API.CallBoyerMoore", inList, &response)
 		}
@@ -147,19 +149,22 @@ func TaskServer(i string, s string, cId string, aArt schema.Analysis, extra stri
 			client.Call("API.CallExactMatch", inList, &response)
 		}
 
-		if aArt.Task == utils.AnalyserList[4] {
-			client.Call("API.CallKMerIndex", inList, &response)
-		}
+		// if aArt.Task == utils.AnalyserList[4] {
+		// 	client.Call("API.CallKMerIndex", inList, &response)
+		// }
+		//
+		// if aArt.Task == utils.AnalyserList[5] {
+		// 	client.Call("API.CallLongestCommonPrefix", inList, &response)
+		// }
+		//
+		// if aArt.Task == utils.AnalyserList[7] {
+		// 	client.Call("API.CallTotalBasesOfEach", inList[3], &response)
+		// }
+		// if aArt.Task == utils.AnalyserList[8] {
+		// 	client.Call("API.CallIdQual", inList, &response)
+		// }
 
-		if aArt.Task == utils.AnalyserList[5] {
-			client.Call("API.CallLongestCommonPrefix", inList, &response)
-		}
-
-		if aArt.Task == utils.AnalyserList[7] {
-			client.Call("API.CallTotalBasesOfEach", inList[3], &response)
-		}
-
-        fmt.Println("[+]=>", response)
+        fmt.Println("|>", response)
 
 	}
 
