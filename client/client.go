@@ -47,12 +47,9 @@ func CheckServers() {
 
 		isAlive := "Dead"
 
-		TestCritical := []string{"1","2","3","4","5"}
-
 		var response string
 
 		client.Call("API.ImAlive", isAlive, &response)
-		client.Call("API.GetByName", TestCritical, &response)
 
 		fmt.Printf("Response from %v ~~> %v\n", nodes[i].TargetIP_Port, response)
 	}
@@ -67,7 +64,7 @@ func RegisterNode(ip_port string, node_name string) bool {
 		utils.HandleError(err)
 	}
 
-	isAlive := "false"
+	isAlive := "Dead"
 	var response string
 
 	go func() {
@@ -76,7 +73,7 @@ func RegisterNode(ip_port string, node_name string) bool {
 	}()
 	wg.Wait()
 
-	if response != "true" {
+	if response != "Alive" {
 		fmt.Println("FAIL: Server not responding!")
 		fmt.Println("HELP: Please make sure the IP & Port are correct and that the server is running.")
 		fmt.Println("NOTE: Please make sure that the port is open.")
@@ -108,4 +105,37 @@ func RegisterNode(ip_port string, node_name string) bool {
 	utils.HandleError(err)
 
 	return true
+}
+
+func TaskServer(i string, s string, cId string, aArt schema.Analysis) {
+	nodes := utils.Get_ActiveNodes()
+
+	var inList []string
+	inList = append(inList, i, s, cId)
+	fmt.Println("->", inList)
+	fmt.Println("->", len(inList))
+
+	for _, n := range nodes {
+		client, err := rpc.DialHTTP("tcp", n.TargetIP_Port)
+		if err != nil {
+			utils.HandleError(err)
+		}
+
+		var response string
+
+		// go func() {
+		// 	defer wg.Done()
+		client.Call("API.CallComplement", inList[1], &response)
+		// }()
+		// wg.Wait()
+
+        fmt.Println(":::", response)
+
+		// if response != "Alive" {
+		// 	fmt.Println("FAIL: Server not responding!")
+		// 	fmt.Println("HELP: Please make sure the IP & Port are correct and that the server is running.")
+		// 	fmt.Println("NOTE: Please make sure that the port is open.")
+		// }
+	}
+
 }

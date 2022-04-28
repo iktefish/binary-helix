@@ -6,16 +6,16 @@ import (
 	"sync"
 
 	"github.com/google/uuid"
-	// "github.com/iktefish/binary-helix/client"
+	"github.com/iktefish/binary-helix/client"
 	"github.com/iktefish/binary-helix/schema"
 	"github.com/iktefish/binary-helix/utils"
 )
 
 /* This function will send the splits to the Db and servers simultaneously */
 func Carrier(ss []string, an string, others ...string) bool {
-    fmt.Println("others ~~> ", others)
+	fmt.Println("others ~~> ", others)
 	var wg sync.WaitGroup
-	wg.Add(len(ss))
+	// wg.Add(len(ss))
 
 	if utils.Check_AnalyzerList(an) != true {
 		log.Fatal("FAIL: No such analysis present!")
@@ -28,12 +28,12 @@ func Carrier(ss []string, an string, others ...string) bool {
 
 	for _, node := range nodes {
 		analysisArts = append(analysisArts, schema.Analysis{
-			Task:         an,
-			TargetIP_Port:     node.TargetIP_Port,
-			Completed:    false,
-			Paid:         false,
-			UnitOutput:   "",
-			MergedOutput: "",
+			Task:          an,
+			TargetIP_Port: node.TargetIP_Port,
+			Completed:     false,
+			Paid:          false,
+			UnitOutput:    "",
+			MergedOutput:  "",
 		})
 	}
 
@@ -48,7 +48,13 @@ func Carrier(ss []string, an string, others ...string) bool {
 	// }
 
 	for i, s := range ss {
+	    wg.Add(1)
 		go splitToDb(i, s, &wg, computationId, analysisArts[i])
+	}
+
+	for i, s := range ss {
+	    wg.Add(1)
+		go splitToServer(i, s, &wg, computationId, analysisArts[i])
 	}
 
 	wg.Wait()
@@ -76,8 +82,15 @@ func splitToDb(i int, s string, wg *sync.WaitGroup, cId string, aArt schema.Anal
 	utils.HandleError(err)
 }
 
-func splitToServer(i, int, s string, wg *sync.WaitGroup, cId string, aArt schema.Analysis) {
+func splitToServer(i int, s string, wg *sync.WaitGroup, cId string, aArt schema.Analysis) {
 	defer wg.Done()
+	// var wgN sync.WaitGroup
+	// wgN.Add(1)
 
-	// client.CheckServers()
+	// go func() {
+        // defer wgN.Done()
+		client.TaskServer(string(i), s, cId, aArt)
+	// }()
+
+    // wgN.Wait()
 }

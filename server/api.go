@@ -1,5 +1,7 @@
 package server
 
+import "github.com/iktefish/binary-helix/analyser"
+
 /* NOTE:
 Criteria for Remote Procedure Calls: (refer to the manual for details)
 - Functions need to be methods
@@ -20,8 +22,9 @@ func (a *API) GetByName(argFromCaller []string, resultFromFunction *string) erro
 	// var IWantThisReturned string
 	// *resultFromFunction = IWantThisReturned
 
-	var IWantThisReturned string = "Pee Kaa Boo"
-	*resultFromFunction = IWantThisReturned
+	// var IWantThisReturned string = "Pee Kaa Boo"
+	// *resultFromFunction = IWantThisReturned
+	*resultFromFunction = argFromCaller[1]
 
 	return nil
 }
@@ -29,6 +32,15 @@ func (a *API) GetByName(argFromCaller []string, resultFromFunction *string) erro
 func (a *API) ImAlive(argFromCaller string, resultFromFunction *string) error {
 	var to_be_returned string = "Alive"
 	*resultFromFunction = to_be_returned
+
+	return nil
+}
+
+func (a *API) CallComplement(argFromCaller string, resultFromFunction *string) error {
+	// var to_be_returned string = analyser.Complement(argFromCaller[0])
+	// var to_be_returned string = "Alive"
+	// *resultFromFunction = to_be_returned
+	*resultFromFunction = analyser.Complement(argFromCaller)
 
 	return nil
 }

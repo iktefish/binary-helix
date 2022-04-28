@@ -98,13 +98,13 @@ func main() {
 		// utils.Admin_DummyInSlices()
 		// utils.Admin_DummyInBenchmarks()
 
-		utils.Admin_EchoDbs()
+		// utils.Admin_EchoDbs()
 
 		// utils.Admin_ClearDbAll("nodes_db")
 		// utils.Admin_ClearDbAll("slices_db")
 		// utils.Admin_ClearDbAll("bench_db")
 		// utils.Admin_ClearDbAll("Hello")
-		// utils.Admin_ClearDbAll("all")
+		utils.Admin_ClearDbAll("all")
 
 		schema.Test_TimeToPrim()
 	}
@@ -137,8 +137,49 @@ func main() {
 		client.CheckServers()
 	}
 
+	/* Check Nodes */
+	if strings.ToLower(arg[1]) == "admin_clear-db" {
+		dbs := [4]string{
+			"nodes_db",
+			"slices_db",
+			"bench_db",
+			"all",
+		}
+
+		if len(arg) < 3 {
+			fmt.Println("FAIL: Please provide which database you want purged!")
+			fmt.Println("Possible options are:")
+			for i := range dbs {
+				fmt.Println(i+1, dbs[i])
+			}
+
+            return
+		}
+
+		db := arg[2]
+		if db == dbs[0] {
+			utils.Admin_ClearDbAll("nodes_db")
+		}
+		if db == dbs[1] {
+			utils.Admin_ClearDbAll("slices_db")
+		}
+		if db == dbs[2] {
+			utils.Admin_ClearDbAll("bench_db")
+		}
+		if db == dbs[3] {
+			utils.Admin_ClearDbAll("all")
+		}
+	}
+
 	/* Boyer-Moore */
 	if strings.ToLower(arg[1]) == utils.AnalyserList[0] {
+        if len(arg) != 4 {
+			fmt.Println("FAIL: Please provide proper list of arguments!")
+			fmt.Println("Type `binary-helix help` for more information.")
+
+            return
+        }
+
 		path := arg[2]
 		p := arg[3]
 
@@ -146,9 +187,9 @@ func main() {
 		splits := workers.Splitter(fileExt, processed, lineCount)
 		workers.Carrier(splits, utils.AnalyserList[0], p)
 
-		fmt.Println(lineCount)
-		fmt.Println(path)
-		fmt.Println(p)
+		// fmt.Println(lineCount)
+		// fmt.Println(path)
+		// fmt.Println(p)
 
 		// pBM := types.ConstructBM(p)
 		// fmt.Println(pBM.Bad_Character_Rule(2, "T"))
