@@ -39,7 +39,7 @@ func CheckServers() {
 
 		client.Call("API.ImAlive", isAlive, &response)
 
-		fmt.Printf("Response from %v ~~> %v\n", nodes[i].TargetIP_Port, response)
+		fmt.Printf("\t Response from %v \t~~> %v\n", nodes[i].TargetIP_Port, response)
 	}
 }
 
@@ -62,9 +62,9 @@ func RegisterNode(ip_port string, node_name string) bool {
 	wg.Wait()
 
 	if response != "Alive" {
-		fmt.Println("FAIL: Server not responding!")
-		fmt.Println("HELP: Please make sure the IP & Port are correct and that the server is running.")
-		fmt.Println("NOTE: Please make sure that the port is open.")
+		fmt.Println("FAIL:\t Server not responding!")
+		fmt.Println("HELP:\t Please make sure the IP & Port are correct and that the server is running.")
+		fmt.Println("NOTE:\t Please make sure that the port is open.")
 		return false
 	}
 
@@ -173,9 +173,11 @@ func Merger(cId string, aArt schema.Analysis, split string) {
 
     aArt.MergedOutput = split
 
+    var i int32
+
 	slice := schema.Slices{
 		ComputationId: cId,
-		SplitOrder:    1,
+		SplitOrder:    i,
 		Content:       split,
 		AnalysisArt:   aArt,
 	}

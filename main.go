@@ -9,6 +9,7 @@ import (
 
 	"github.com/iktefish/binary-helix/analyser"
 	"github.com/iktefish/binary-helix/client"
+	// "github.com/iktefish/binary-helix/schema"
 	"github.com/iktefish/binary-helix/server"
 	"github.com/iktefish/binary-helix/types"
 	"github.com/iktefish/binary-helix/utils"
@@ -18,7 +19,7 @@ import (
 func main() {
 	arg := os.Args
 	if len(arg) == 1 {
-        help()
+		help()
 		return
 	}
 
@@ -69,6 +70,39 @@ func main() {
 		analyser.Id_SeqQual(splits)
 	}
 
+	if arg[1] == "DB" {
+		// utils.Admin_EchoDbContents("nodes_db")
+
+        itemCount := 0
+        utils.Admin_EchoDbContents("slices_db", &itemCount)
+        fmt.Println(itemCount)
+
+        // itemCount := utils.Admin_EchoDbContents("slices_db")
+        // fmt.Println(itemCount)
+
+		// utils.Admin_EchoDbContents("bench_db")
+		// utils.Admin_EchoDbContents("Hello_DB")
+
+		// utils.Admin_DummyInComputeNodes()
+		// utils.Admin_DummyInSlices()
+		// utils.Admin_DummyInBenchmarks()
+
+		// utils.Admin_EchoDbs()
+
+		// utils.Admin_ClearDbAll("nodes_db")
+		// utils.Admin_ClearDbAll("slices_db")
+		// utils.Admin_ClearDbAll("bench_db")
+		// utils.Admin_ClearDbAll("Hello")
+		// utils.Admin_ClearDbAll("all")
+
+		// schema.Test_TimeToPrim()
+	}
+
+    // /* Payment Resolver */ // NOTE: INCOMPLETE
+	// if arg[1] == "Resolve" {
+	//        workers.PayResolver()
+	// }
+
 	// HERE_IT_STARTS:
 	/* Command line args */
 
@@ -88,7 +122,7 @@ func main() {
 		}
 
 		if out != true {
-			fmt.Println("FAIL: Registration failed!")
+			fmt.Println("FAIL:\t Registration failed!")
 		}
 	}
 
@@ -112,8 +146,8 @@ func main() {
 		}
 
 		if len(arg) < 3 {
-			fmt.Println("FAIL: Please provide which database you want purged!")
-			fmt.Println("Possible options are:")
+			fmt.Println("FAIL:\t Please provide which database you want purged!")
+			fmt.Println("\t Possible options are:")
 			for i := range dbs {
 				fmt.Println(i+1, dbs[i])
 			}
@@ -219,15 +253,15 @@ func main() {
 		_, processed_1, _ := workers.Reader(path_1)
 		_, processed_2, _ := workers.Reader(path_2)
 
-        str_1 := string(processed_1)
-        str_2 := string(processed_2)
+		str_1 := string(processed_1)
+		str_2 := string(processed_2)
 
-        if len(str_1) != len(str_2) {
+		if len(str_1) != len(str_2) {
 			fmt.Println("FAIL:\t The DNA sequences are not from the same Genome!")
 			fmt.Println("\t The size of the DNA sequence must be equal to perform this match.")
 
 			return
-        }
+		}
 
 		lcp := analyser.LongestCommonPrefix(str_1, str_2)
 
@@ -243,12 +277,12 @@ func main() {
 			return
 		}
 
-        path := arg[2]
+		path := arg[2]
 
 		As, Cs, Gs, Ts := analyser.TotalBasesOfEach(path)
 
-        fmt.Println("\nOUTPUT:\n")
-        fmt.Println("\t Number of Adenine(s): ", As)
+		fmt.Println("\nOUTPUT:")
+		fmt.Println("\t Number of Adenine(s): ", As)
 		fmt.Println("\t Number of Cytosine(s): ", Cs)
 		fmt.Println("\t Number of Guanine(s): ", Gs)
 		fmt.Println("\t Number of Thymine(s): ", Ts)

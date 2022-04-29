@@ -48,12 +48,12 @@ func Carrier(ss []string, an string, extra string) bool {
 	// }
 
 	for i, s := range ss {
-	    wg.Add(1)
+		wg.Add(1)
 		go splitToDb(i, s, &wg, computationId, analysisArts[i])
 	}
 
 	for i, s := range ss {
-	    wg.Add(1)
+		wg.Add(1)
 		go splitToServer(i, s, &wg, computationId, analysisArts[i], extra)
 	}
 
@@ -84,13 +84,5 @@ func splitToDb(i int, s string, wg *sync.WaitGroup, cId string, aArt schema.Anal
 
 func splitToServer(i int, s string, wg *sync.WaitGroup, cId string, aArt schema.Analysis, extra string) {
 	defer wg.Done()
-	// var wgN sync.WaitGroup
-	// wgN.Add(1)
-
-	// go func() {
-        // defer wgN.Done()
-		client.TaskServer(string(i), s, cId, aArt, extra)
-	// }()
-
-    // wgN.Wait()
+	client.TaskServer(string(i), s, cId, aArt, extra)
 }

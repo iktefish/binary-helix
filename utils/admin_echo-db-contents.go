@@ -9,7 +9,7 @@ import (
 	"sync"
 )
 
-func Admin_EchoDbContents(s string) {
+func Admin_EchoDbContents(s string, itemCount *int) {
 	var wg sync.WaitGroup
 	wg.Add(1)
 
@@ -17,19 +17,19 @@ func Admin_EchoDbContents(s string) {
 	defer client.Disconnect(ctx)
 
 	if s == "nodes_db" {
-		catchAndEcho(s, client, ctx, &wg)
+		catchAndEcho(s, client, ctx, &wg, itemCount)
 	}
 
 	if s == "slices_db" {
-		catchAndEcho(s, client, ctx, &wg)
+		catchAndEcho(s, client, ctx, &wg, itemCount)
 	}
 
 	if s == "bench_db" {
-		catchAndEcho(s, client, ctx, &wg)
+		catchAndEcho(s, client, ctx, &wg, itemCount)
 	}
 
 	if s != "nodes_db" && s != "slices_db" && s != "bench_db" {
-		fmt.Printf("FAIL: The database '%v' does not exist!\n", s)
+		fmt.Printf("FAIL:\t The database '%v' does not exist!\n", s)
 		wg.Done()
 	}
 
@@ -57,7 +57,7 @@ func Admin_EchoDbContents(s string) {
 	wg.Wait()
 }
 
-func catchAndEcho(s string, c *mongo.Client, ctx context.Context, wg *sync.WaitGroup) {
+func catchAndEcho(s string, c *mongo.Client, ctx context.Context, wg *sync.WaitGroup, itemCount *int) {
 	/* Ready/Catch `s` database and `colName` collection */
 	db := c.Database(s)
 	colName := ""
@@ -90,9 +90,10 @@ func catchAndEcho(s string, c *mongo.Client, ctx context.Context, wg *sync.WaitG
 			if len(results) > 0 {
 				for i, r := range results {
 					fmt.Printf("%s ~~>\t[%v]\t%v\n", s, i+1, r)
+                    *itemCount += 1
 				}
 			} else {
-				fmt.Printf("SUCCESS: The database '%v' exists but is empty!\n", s)
+				fmt.Printf("SUCCESS:\t The database '%v' exists but is empty!\n", s)
 			}
 		}
 
@@ -105,9 +106,10 @@ func catchAndEcho(s string, c *mongo.Client, ctx context.Context, wg *sync.WaitG
 			if len(results) > 0 {
 				for i, r := range results {
 					fmt.Printf("%s ~~>\t[%v]\t%v\n", s, i+1, r)
+                    *itemCount += 1
 				}
 			} else {
-				fmt.Printf("SUCCESS: The database '%v' exists but is empty!\n", s)
+				fmt.Printf("SUCCESS:\t The database '%v' exists but is empty!\n", s)
 			}
 		}
 
@@ -120,9 +122,10 @@ func catchAndEcho(s string, c *mongo.Client, ctx context.Context, wg *sync.WaitG
 			if len(results) > 0 {
 				for i, r := range results {
 					fmt.Printf("%s ~~>\t[%v]\t%v\n", s, i+1, r)
+                    *itemCount += 1
 				}
 			} else {
-				fmt.Printf("SUCCESS: The database '%v' exists but is empty!\n", s)
+				fmt.Printf("SUCCESS:\t The database '%v' exists but is empty!\n", s)
 			}
 		}
 

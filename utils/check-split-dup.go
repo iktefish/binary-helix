@@ -24,12 +24,12 @@ func CheckSplitDup() bool {
 		SplitOrder:    1,
 		Content:       content,
 		AnalysisArt: schema.Analysis{
-			Task:         task,
-			TargetIP_Port:     targetIp,
-			Completed:    false,
-			Paid:         false,
-			UnitOutput:   "",
-			MergedOutput: "",
+			Task:          task,
+			TargetIP_Port: targetIp,
+			Completed:     false,
+			Paid:          false,
+			UnitOutput:    "",
+			MergedOutput:  "",
 		},
 	}
 

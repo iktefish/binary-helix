@@ -7,7 +7,7 @@ import (
 	"github.com/iktefish/binary-helix/workers"
 )
 
-func TestCarrier(t *testing.T) {
+func TestReader(t *testing.T) {
 	fileExt, processed, lineCount := workers.Reader("./sample/phix.fa")
 	p := "TCTA"
 	splits := workers.Splitter(fileExt, processed, lineCount)
@@ -23,13 +23,14 @@ func TestCarrier(t *testing.T) {
 	if newItemCount == itemCount {
 		t.Error("Expected false")
 	}
+
+	if fileExt != ".fa" {
+		t.Error("Proper identification of file extension.")
+	}
 }
 
-func BenchmarkCarrier(b *testing.B) {
+func BenchmarkReader(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		fileExt, processed, lineCount := workers.Reader("./sample/phix.fa")
-		p := "TCTA"
-		splits := workers.Splitter(fileExt, processed, lineCount)
-		workers.Carrier(splits, utils.AnalyserList[3], p)
+		workers.Reader("./sample/phix.fa")
 	}
 }
