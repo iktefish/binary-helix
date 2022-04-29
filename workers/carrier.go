@@ -1,7 +1,7 @@
 package workers
 
 import (
-	"fmt"
+	// "fmt"
 	"log"
 	"sync"
 
@@ -13,9 +13,13 @@ import (
 
 /* This function will send the splits to the Db and servers simultaneously */
 func Carrier(ss []string, an string, extra string) bool {
-	fmt.Println("extra ~~> ", extra)
+	// fmt.Println("extra ~~> ", extra)
 	var wg sync.WaitGroup
 	// wg.Add(len(ss))
+
+    if an == "trial" {
+        return true
+    }
 
 	if utils.Check_AnalyzerList(an) != true {
 		log.Fatal("FAIL: No such analysis present!")
@@ -32,8 +36,8 @@ func Carrier(ss []string, an string, extra string) bool {
 			TargetIP_Port: node.TargetIP_Port,
 			Completed:     false,
 			Paid:          false,
-			UnitOutput:    "",
-			MergedOutput:  "",
+			// UnitOutput:    "",
+			// MergedOutput:  "",
 		})
 	}
 

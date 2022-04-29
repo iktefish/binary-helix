@@ -22,9 +22,10 @@ func Admin_DummyInSlices() {
 			TargetIP_Port: "DUMMY",
 			Completed:     false,
 			Paid:          false,
-			UnitOutput:    "DUMMY",
-			MergedOutput:  "DUMMY",
+			// UnitOutput:    "DUMMY",
+			// MergedOutput:  "DUMMY",
 		},
+        MergedOutput: []string{"DUMMY"},
 	}
 
 	/* Insert dummy in slices collection */

@@ -171,15 +171,19 @@ func Merger(cId string, aArt schema.Analysis, split string) {
 	slicesDb := client.Database("slices_db")
 	slices := slicesDb.Collection("slices")
 
-    aArt.MergedOutput = split
+    // aArt.MergedOutput = split
 
     var i int32
+
+    var responses []string
+    responses = append(responses, split)
 
 	slice := schema.Slices{
 		ComputationId: cId,
 		SplitOrder:    i,
 		Content:       split,
 		AnalysisArt:   aArt,
+        MergedOutput: responses,
 	}
 
 	/* Insert slice in slices collection */

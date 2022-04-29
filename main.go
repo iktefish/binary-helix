@@ -84,7 +84,7 @@ func main() {
 		// utils.Admin_EchoDbContents("Hello_DB")
 
 		// utils.Admin_DummyInComputeNodes()
-		// utils.Admin_DummyInSlices()
+		utils.Admin_DummyInSlices()
 		// utils.Admin_DummyInBenchmarks()
 
 		// utils.Admin_EchoDbs()

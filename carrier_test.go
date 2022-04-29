@@ -29,7 +29,8 @@ func BenchmarkCarrier(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		fileExt, processed, lineCount := workers.Reader("./sample/phix.fa")
 		p := "TCTA"
+		t := "trial"
 		splits := workers.Splitter(fileExt, processed, lineCount)
-		workers.Carrier(splits, utils.AnalyserList[3], p)
+		workers.Carrier(splits, t, p)
 	}
 }

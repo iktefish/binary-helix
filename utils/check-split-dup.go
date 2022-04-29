@@ -28,8 +28,8 @@ func CheckSplitDup() bool {
 			TargetIP_Port: targetIp,
 			Completed:     false,
 			Paid:          false,
-			UnitOutput:    "",
-			MergedOutput:  "",
+			// UnitOutput:    "",
+			// MergedOutput:  "",
 		},
 	}
 
