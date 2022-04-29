@@ -101,12 +101,12 @@ func TaskServer(i string, s string, cId string, aArt schema.Analysis, extra stri
 	var inList []string
 	inList = append(inList, i, s, cId, extra)
 
-	for i, iL := range inList {
-		fmt.Println(i, ">> ", iL)
-	}
-	fmt.Println("->", inList)
-	fmt.Println("->", len(inList))
-	fmt.Println("Task->", aArt.Task)
+	// for i, iL := range inList {
+	// 	fmt.Println(i, ">> ", iL)
+	// }
+	// fmt.Println("->", inList)
+	// fmt.Println("->", len(inList))
+	// fmt.Println("Task->", aArt.Task)
 
 	for _, n := range nodes {
 		client, err := rpc.DialHTTP("tcp", n.TargetIP_Port)

@@ -3,12 +3,14 @@ package main
 import (
 	"fmt"
 	"os"
+
 	// "strconv"
 	"strings"
 	"sync"
 
 	"github.com/iktefish/binary-helix/analyser"
 	"github.com/iktefish/binary-helix/client"
+
 	// "github.com/iktefish/binary-helix/schema"
 	"github.com/iktefish/binary-helix/server"
 	"github.com/iktefish/binary-helix/types"
@@ -73,15 +75,15 @@ func main() {
 	if arg[1] == "DB" {
 		// utils.Admin_EchoDbContents("nodes_db")
 
-        itemCount := 0
-        mergedItemCount := 0
-        utils.Admin_EchoDbContents("slices_db", &itemCount, &mergedItemCount)
+		itemCount := 0
+		mergedItemCount := 0
+		utils.Admin_EchoDbContents("slices_db", &itemCount, &mergedItemCount)
 
-        fmt.Println("\t itemCount:\t\t", itemCount)
-        fmt.Println("\t mergedItemCount:\t", mergedItemCount)
+		fmt.Println("\t itemCount:\t\t", itemCount)
+		fmt.Println("\t mergedItemCount:\t", mergedItemCount)
 
-        // itemCount := utils.Admin_EchoDbContents("slices_db")
-        // fmt.Println(itemCount)
+		// itemCount := utils.Admin_EchoDbContents("slices_db")
+		// fmt.Println(itemCount)
 
 		// utils.Admin_EchoDbContents("bench_db")
 		// utils.Admin_EchoDbContents("Hello_DB")
@@ -101,7 +103,7 @@ func main() {
 		// schema.Test_TimeToPrim()
 	}
 
-    // /* Payment Resolver */ // NOTE: INCOMPLETE
+	// /* Payment Resolver */ // NOTE: INCOMPLETE
 	// if arg[1] == "Resolve" {
 	//        workers.PayResolver()
 	// }

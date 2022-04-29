@@ -1,11 +1,12 @@
 package workers
 
 import (
-	// "fmt"
+	"fmt"
 	"log"
 	"sync"
 
 	"github.com/google/uuid"
+	"github.com/iktefish/binary-helix/blockchain"
 	"github.com/iktefish/binary-helix/client"
 	"github.com/iktefish/binary-helix/schema"
 	"github.com/iktefish/binary-helix/utils"
@@ -57,9 +58,24 @@ func Carrier(ss []string, an string, extra string) bool {
 	for i, s := range ss {
 		wg.Add(1)
 		go splitToServer(i, s, &wg, computationId, analysisArts[i], extra)
+
+		chain := blockchain.InitBlockChain()
+		chain.AddBlock(computationId, analysisArts[i].TargetIP_Port)
+
+		for i, block := range chain.Blocks {
+			if i == 0 {
+				fmt.Println("\tBLOCKCHAIN:\t\n")
+			}
+			fmt.Printf("\tblock.OldHash\t%v ~~>\t%x\n", i, block.OldHash)
+			fmt.Printf("\tblock.C_Id\t%v ~~>\t%x\n", i, block.C_Id)
+			fmt.Printf("\tblock.Ip_Port\t%v ~~>\t%x\n", i, block.Ip_Port)
+			fmt.Printf("\tblock.Hash\t%v ~~>\t%x\n", i, block.Hash)
+			fmt.Println("\n")
+		}
 	}
 
 	wg.Wait()
+
 	return true
 }
 
