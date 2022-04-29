@@ -9,7 +9,7 @@ import (
 	"sync"
 )
 
-func Admin_EchoDbContents(s string, itemCount *int) {
+func Admin_EchoDbContents(s string, itemCount *int, mergedICount *int) {
 	var wg sync.WaitGroup
 	wg.Add(1)
 
@@ -17,15 +17,15 @@ func Admin_EchoDbContents(s string, itemCount *int) {
 	defer client.Disconnect(ctx)
 
 	if s == "nodes_db" {
-		catchAndEcho(s, client, ctx, &wg, itemCount)
+		catchAndEcho(s, client, ctx, &wg, itemCount, mergedICount)
 	}
 
 	if s == "slices_db" {
-		catchAndEcho(s, client, ctx, &wg, itemCount)
+		catchAndEcho(s, client, ctx, &wg, itemCount, mergedICount)
 	}
 
 	if s == "bench_db" {
-		catchAndEcho(s, client, ctx, &wg, itemCount)
+		catchAndEcho(s, client, ctx, &wg, itemCount, mergedICount)
 	}
 
 	if s != "nodes_db" && s != "slices_db" && s != "bench_db" {
@@ -57,7 +57,7 @@ func Admin_EchoDbContents(s string, itemCount *int) {
 	wg.Wait()
 }
 
-func catchAndEcho(s string, c *mongo.Client, ctx context.Context, wg *sync.WaitGroup, itemCount *int) {
+func catchAndEcho(s string, c *mongo.Client, ctx context.Context, wg *sync.WaitGroup, itemCount *int, mergerICount *int) {
 	/* Ready/Catch `s` database and `colName` collection */
 	db := c.Database(s)
 	colName := ""
@@ -90,7 +90,7 @@ func catchAndEcho(s string, c *mongo.Client, ctx context.Context, wg *sync.WaitG
 			if len(results) > 0 {
 				for i, r := range results {
 					fmt.Printf("%s ~~>\t[%v]\t%v\n", s, i+1, r)
-                    *itemCount += 1
+					*itemCount += 1
 				}
 			} else {
 				fmt.Printf("SUCCESS:\t The database '%v' exists but is empty!\n", s)
@@ -105,8 +105,11 @@ func catchAndEcho(s string, c *mongo.Client, ctx context.Context, wg *sync.WaitG
 
 			if len(results) > 0 {
 				for i, r := range results {
+					if len(r.MergedOutput) == 0 {
+						*mergerICount += 1
+					}
 					fmt.Printf("%s ~~>\t[%v]\t%v\n", s, i+1, r)
-                    *itemCount += 1
+					*itemCount += 1
 				}
 			} else {
 				fmt.Printf("SUCCESS:\t The database '%v' exists but is empty!\n", s)
@@ -122,7 +125,7 @@ func catchAndEcho(s string, c *mongo.Client, ctx context.Context, wg *sync.WaitG
 			if len(results) > 0 {
 				for i, r := range results {
 					fmt.Printf("%s ~~>\t[%v]\t%v\n", s, i+1, r)
-                    *itemCount += 1
+					*itemCount += 1
 				}
 			} else {
 				fmt.Printf("SUCCESS:\t The database '%v' exists but is empty!\n", s)

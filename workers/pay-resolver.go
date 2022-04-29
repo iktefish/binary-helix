@@ -32,14 +32,6 @@ func PayResolver() {
             TargetIP_Port: "127.0.0.1:4040",
 			Completed:     false,
 			Paid:          false,
-			// UnitOutput:    "",
-			// MergedOutput:  "",
-			// Task:          task,
-			// TargetIP_Port: targetIp,
-			// Completed:     false,
-			// Paid:          false,
-			// UnitOutput:    "",
-			// MergedOutput:  "",
 		},
 	}
 

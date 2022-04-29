@@ -12,13 +12,14 @@ func TestCarrier(t *testing.T) {
 	p := "TCTA"
 	splits := workers.Splitter(fileExt, processed, lineCount)
 
+    mergedICounter := 0
 	itemCount := 0
-	utils.Admin_EchoDbContents("slices_db", &itemCount)
+	utils.Admin_EchoDbContents("slices_db", &itemCount, &mergedICounter)
 
 	workers.Carrier(splits, utils.AnalyserList[3], p)
 
 	newItemCount := 0
-	utils.Admin_EchoDbContents("slices_db", &newItemCount)
+	utils.Admin_EchoDbContents("slices_db", &newItemCount, &mergedICounter)
 
 	if newItemCount == itemCount {
 		t.Error("Expected false")

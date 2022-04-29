@@ -17,9 +17,9 @@ func Carrier(ss []string, an string, extra string) bool {
 	var wg sync.WaitGroup
 	// wg.Add(len(ss))
 
-    if an == "trial" {
-        return true
-    }
+	if an == "trial" {
+		return true
+	}
 
 	if utils.Check_AnalyzerList(an) != true {
 		log.Fatal("FAIL: No such analysis present!")
@@ -36,8 +36,6 @@ func Carrier(ss []string, an string, extra string) bool {
 			TargetIP_Port: node.TargetIP_Port,
 			Completed:     false,
 			Paid:          false,
-			// UnitOutput:    "",
-			// MergedOutput:  "",
 		})
 	}
 
