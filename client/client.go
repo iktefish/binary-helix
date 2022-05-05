@@ -68,7 +68,7 @@ func RegisterNode(ip_port string, node_name string) bool {
 		return false
 	}
 
-	fmt.Printf("Response from %v ~~> %v", ip_port, response)
+	fmt.Printf("Response from %v\t ~~> %v\n", ip_port, response)
 
 	dbclient, ctx := utils.ConnectDb()
 	defer dbclient.Disconnect(ctx)
@@ -84,7 +84,7 @@ func RegisterNode(ip_port string, node_name string) bool {
 	}
 
 	if utils.Verify_NodeNoDup(ip_port, node_name) != true {
-		fmt.Println("FAIL: An individual host cannot register as more then 1 node!")
+		fmt.Println("FAIL:\t An individual host cannot register as more then 1 node!")
 		return false
 	}
 

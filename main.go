@@ -192,6 +192,28 @@ func main() {
 		workers.Carrier(splits, utils.AnalyserList[0], p)
 	}
 
+	/* Boyer-Moore */
+	if strings.ToLower(arg[1]) == "boyer-moore" {
+		if len(arg) != 4 {
+			fmt.Println("FAIL:\t Please provide proper list of arguments!")
+			fmt.Println("\t Type `binary-helix help` for more information.")
+
+			return
+		}
+
+		path := arg[2]
+		p := arg[3]
+
+		_, processed, _ := workers.Reader(path)
+		// splits := workers.Splitter(fileExt, processed, lineCount)
+		// workers.Carrier(splits, utils.AnalyserList[0], p)
+
+		pBM := types.ConstructBM(p)
+		out := analyser.BoyerMoore(p, pBM, string(processed))
+		fmt.Println("OUTPUT:\t")
+		fmt.Println("\t ", out)
+	}
+
 	/* Complement (Node) */
 	if strings.ToLower(arg[1]) == "complement-node" {
 		if len(arg) > 3 {
@@ -207,6 +229,27 @@ func main() {
 		fileExt, processed, lineCount := workers.Reader(path)
 		splits := workers.Splitter(fileExt, processed, lineCount)
 		workers.Carrier(splits, utils.AnalyserList[1], p)
+	}
+
+	/* Complement */
+	if strings.ToLower(arg[1]) == "complement" {
+		if len(arg) > 3 {
+			fmt.Println("FAIL:\t  Please provide proper list of arguments!")
+			fmt.Println("\t Type `binary-helix help` for more information.")
+
+			return
+		}
+
+		path := arg[2]
+		// p := ""
+
+		_, processed, _ := workers.Reader(path)
+		// splits := workers.Splitter(fileExt, processed, lineCount)
+		// workers.Carrier(splits, utils.AnalyserList[0], p)
+
+		out := analyser.Complement(string(processed))
+		fmt.Println("OUTPUT:\t")
+		fmt.Println("\t ", out)
 	}
 
 	/* Reverse Complement (Node) */
@@ -226,6 +269,24 @@ func main() {
 		workers.Carrier(splits, utils.AnalyserList[2], p)
 	}
 
+	/* Reverse Complement */
+	if strings.ToLower(arg[1]) == "reverse-complement" {
+		if len(arg) > 3 {
+			fmt.Println("FAIL:\t Please provide proper list of arguments!")
+			fmt.Println("\t Type `binary-helix help` for more information.")
+
+			return
+		}
+
+		path := arg[2]
+		// p := ""
+
+		_, processed, _ := workers.Reader(path)
+		out := analyser.ReverseComplement(string(processed))
+		fmt.Println("OUTPUT:\t")
+		fmt.Println("\t ", out)
+	}
+
 	/* Exact Match (Node) */
 	if strings.ToLower(arg[1]) == "exact-match-node" {
 		if len(arg) != 4 {
@@ -241,6 +302,24 @@ func main() {
 		fileExt, processed, lineCount := workers.Reader(path)
 		splits := workers.Splitter(fileExt, processed, lineCount)
 		workers.Carrier(splits, utils.AnalyserList[3], p)
+	}
+
+	/* Exact Match */
+	if strings.ToLower(arg[1]) == "exact-match" {
+		if len(arg) != 4 {
+			fmt.Println("FAIL:\t Please provide proper list of arguments!")
+			fmt.Println("\t Type `binary-helix help` for more information.")
+
+			return
+		}
+
+		path := arg[2]
+		p := arg[3]
+
+		_, processed, _ := workers.Reader(path)
+		out := analyser.ExactMatch(p, string(processed))
+		fmt.Println("OUTPUT:\t")
+		fmt.Println("\t ", out)
 	}
 
 	/* Longest Common Prefix */
