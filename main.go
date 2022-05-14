@@ -9,7 +9,8 @@ import (
 	"sync"
 
 	"github.com/iktefish/binary-helix/analyser"
-	"github.com/iktefish/binary-helix/client"
+	"github.com/iktefish/binary-helix/ui"
+	// "github.com/iktefish/binary-helix/client"
 
 	// "github.com/iktefish/binary-helix/schema"
 	"github.com/iktefish/binary-helix/server"
@@ -20,10 +21,13 @@ import (
 
 func main() {
 	arg := os.Args
-	if len(arg) == 1 {
-		help()
-		return
-	}
+
+	// if len(arg) == 1 {
+	// 	help()
+	// 	return
+	// }
+
+	ui.Arg_Checker(arg)
 
 	// if arg[1] == "RegisterNode" {
 	// 	client.RegisterNode("172.17.0.3:4042", "binary-helix_c2")
@@ -65,7 +69,7 @@ func main() {
 	}
 
 	if arg[1] == "Qual" {
-		path := "./test/input/small_sra_data.fastq"
+		path := "./sample/small_sra_data.fastq"
 
 		fileExt, processed, lineCount := workers.Reader(path)
 		splits := workers.Splitter(fileExt, processed, lineCount)
@@ -117,24 +121,24 @@ func main() {
 	}
 
 	/* Register Node */
-	if strings.ToLower(arg[1]) == "register-node" {
-		ip_port := arg[2]
-		node_name := arg[3]
+	// if strings.ToLower(arg[1]) == "register-node" {
+	// 	ip_port := arg[2]
+	// 	node_name := arg[3]
+	//
+	// 	out := false
+	// 	if node_name != "" {
+	// 		out = client.RegisterNode(ip_port, node_name)
+	// 	}
+	//
+	// 	if out != true {
+	// 		fmt.Println("FAIL:\t Registration failed!")
+	// 	}
+	// }
 
-		out := false
-		if node_name != "" {
-			out = client.RegisterNode(ip_port, node_name)
-		}
-
-		if out != true {
-			fmt.Println("FAIL:\t Registration failed!")
-		}
-	}
-
-	/* Check Nodes */
-	if strings.ToLower(arg[1]) == "check-nodes" {
-		client.CheckServers()
-	}
+	// /* Check Nodes */
+	// if strings.ToLower(arg[1]) == "check-nodes" {
+	// 	client.CheckServers()
+	// }
 
 	/* Start server */
 	if strings.ToLower(arg[1]) == "server" {
@@ -193,26 +197,26 @@ func main() {
 	}
 
 	/* Boyer-Moore */
-	if strings.ToLower(arg[1]) == "boyer-moore" {
-		if len(arg) != 4 {
-			fmt.Println("FAIL:\t Please provide proper list of arguments!")
-			fmt.Println("\t Type `binary-helix help` for more information.")
-
-			return
-		}
-
-		path := arg[2]
-		p := arg[3]
-
-		_, processed, _ := workers.Reader(path)
-		// splits := workers.Splitter(fileExt, processed, lineCount)
-		// workers.Carrier(splits, utils.AnalyserList[0], p)
-
-		pBM := types.ConstructBM(p)
-		out := analyser.BoyerMoore(p, pBM, string(processed))
-		fmt.Println("OUTPUT:\t")
-		fmt.Println("\t ", out)
-	}
+	// if strings.ToLower(arg[1]) == "boyer-moore" {
+	// 	if len(arg) != 4 {
+	// 		fmt.Println("FAIL:\t Please provide proper list of arguments!")
+	// 		fmt.Println("\t Type `binary-helix help` for more information.")
+	//
+	// 		return
+	// 	}
+	//
+	// 	path := arg[2]
+	// 	p := arg[3]
+	//
+	// 	_, processed, _ := workers.Reader(path)
+	// 	// splits := workers.Splitter(fileExt, processed, lineCount)
+	// 	// workers.Carrier(splits, utils.AnalyserList[0], p)
+	//
+	// 	pBM := types.ConstructBM(p)
+	// 	out := analyser.BoyerMoore(p, pBM, string(processed))
+	// 	fmt.Println("OUTPUT:\t")
+	// 	fmt.Println("\t ", out)
+	// }
 
 	/* Complement (Node) */
 	if strings.ToLower(arg[1]) == "complement-node" {
@@ -323,34 +327,34 @@ func main() {
 	}
 
 	/* Longest Common Prefix */
-	if strings.ToLower(arg[1]) == "longest-common-prefix" {
-		if len(arg) != 4 {
-			fmt.Println("FAIL:\t Please provide proper list of arguments!")
-			fmt.Println("\t Type `binary-helix help` for more information.")
+	// if strings.ToLower(arg[1]) == "longest-common-prefix" {
+	// 	if len(arg) != 4 {
+	// 		fmt.Println("FAIL:\t Please provide proper list of arguments!")
+	// 		fmt.Println("\t Type `binary-helix help` for more information.")
 
-			return
-		}
+	// 		return
+	// 	}
 
-		path_1 := arg[2]
-		path_2 := arg[3]
+	// 	path_1 := arg[2]
+	// 	path_2 := arg[3]
 
-		_, processed_1, _ := workers.Reader(path_1)
-		_, processed_2, _ := workers.Reader(path_2)
+	// 	_, processed_1, _ := workers.Reader(path_1)
+	// 	_, processed_2, _ := workers.Reader(path_2)
 
-		str_1 := string(processed_1)
-		str_2 := string(processed_2)
+	// 	str_1 := string(processed_1)
+	// 	str_2 := string(processed_2)
 
-		if len(str_1) != len(str_2) {
-			fmt.Println("FAIL:\t The DNA sequences are not from the same Genome!")
-			fmt.Println("\t The size of the DNA sequence must be equal to perform this match.")
+	// 	if len(str_1) != len(str_2) {
+	// 		fmt.Println("FAIL:\t The DNA sequences are not from the same Genome!")
+	// 		fmt.Println("\t The size of the DNA sequence must be equal to perform this match.")
 
-			return
-		}
+	// 		return
+	// 	}
 
-		lcp := analyser.LongestCommonPrefix(str_1, str_2)
+	// 	lcp := analyser.LongestCommonPrefix(str_1, str_2)
 
-		fmt.Println(lcp)
-	}
+	// 	fmt.Println(lcp)
+	// }
 
 	/* Total Number of Each Base */
 	if strings.ToLower(arg[1]) == "total-bases-of-each" {
@@ -420,37 +424,37 @@ func main() {
 }
 
 func help() {
-	fmt.Println("")
-	fmt.Println("INTRODUCTION:")
-	fmt.Println("")
-	fmt.Println("\t Welcome to Binary Helix, a distributed Genome analysis system powered by SliceCoin.")
-	fmt.Println("")
-	fmt.Println("\t Using this system, you can allow scientists, researchers and engineers from all over")
-	fmt.Println("\t the world to use a tiny fraction of you smartphone/desktop/leptops' computational power")
-	fmt.Println("\t for the purpose of analysing DNA sequences. Doing so you can be a part of may glorious")
-	fmt.Println("\t individuals who contribute to seeking, and helping others seek, a greater understanding of")
-	fmt.Println("\t things such as Cancer, Down's Syndrome, Aging, Genetic Psychiatric Conditions, Evolution,")
-	fmt.Println("\t Language, etc.")
-	fmt.Println("")
-	fmt.Println("\t You will of-course be paid for donating your computation to the service of science.")
-	fmt.Println("")
-	fmt.Println("COMMANDS:")
-	fmt.Println("")
-	fmt.Println("\t binary-helix help\t\t\t\t\t--> Outputs information on how to use this CLI")
-	fmt.Println("\t binary-helix register-node IP:PORT\t\t\t--> Registers your device as a server-node to donate computation.")
-	fmt.Println("\t binary-helix check-nodes\t\t\t\t--> Outputs the Complement of the DNA of an input .fa file.")
-	fmt.Println("\t binary-helix boyer-moore FILE PATTERN\t\t\t--> Performs Boyer-Moors searching algorithm on an input .fastq file")
-	fmt.Println("\t binary-helix boyer-moore-node FILE PATTERN\t\t--> Performs Boyer-Moors searching algorithm on an input .fastq file utilizing cluster.")
-	fmt.Println("\t binary-helix complement FILE\t\t\t\t--> Outputs the Complement of the DNA of an input .fa file.")
-	fmt.Println("\t binary-helix complement-node FILE\t\t\t--> Outputs the Complement of the DNA of an input .fa file utilizing cluster.")
-	fmt.Println("\t binary-helix reverse-complement FILE\t\t\t--> Outputs the Reverse Complement of the DNA of an input .fa file.")
-	fmt.Println("\t binary-helix reverse-complement-node FILE\t\t--> Outputs the Reverse Complement of the DNA of an input .fa file utilizing cluster.")
-	fmt.Println("\t binary-helix exact-match FILE PATTERN\t\t\t--> Outputs the Exact Match of the DNA read from an input .fa file.")
-	fmt.Println("\t binary-helix exact-match-node FILE PATTERN\t\t--> Outputs the Exact Match of the DNA read from an input .fa file utilizing cluster.")
-	fmt.Println("\t binary-helix k-mer FILE NUMBER\t\t\t\t--> Outputs the K-Mer Index of the DNA read from an input .fa file.")
-	fmt.Println("\t binary-helix longest-common-prefix FILE PATTERN\t--> Outputs the Longest Common Prefix the DNA read has with an input .fa file.")
-	fmt.Println("\t binary-helix total-bases-of-each FILE \t\t\t--> Outputs the Total Number of Each Base in the DNA read has with an input .fa file.")
-	fmt.Println("\t binary-helix server\t\t\t\t\t--> Starts the server on port `4040`, turning your device into a supercomputer node.")
-	fmt.Println("\t binary-helix admin_clear-db\t\t\t\t--> Clear EVERY item on the database. USE WITH CAUTION!")
-	fmt.Println("")
+	// fmt.Println("")
+	// fmt.Println("INTRODUCTION:")
+	// fmt.Println("")
+	// fmt.Println("\t Welcome to Binary Helix, a distributed Genome analysis system powered by SliceCoin.")
+	// fmt.Println("")
+	// fmt.Println("\t Using this system, you can allow scientists, researchers and engineers from all over")
+	// fmt.Println("\t the world to use a tiny fraction of you smartphone/desktop/leptops' computational power")
+	// fmt.Println("\t for the purpose of analysing DNA sequences. Doing so you can be a part of may glorious")
+	// fmt.Println("\t individuals who contribute to seeking, and helping others seek, a greater understanding of")
+	// fmt.Println("\t things such as Cancer, Down's Syndrome, Aging, Genetic Psychiatric Conditions, Evolution,")
+	// fmt.Println("\t Language, etc.")
+	// fmt.Println("")
+	// fmt.Println("\t You will of-course be paid for donating your computation to the service of science.")
+	// fmt.Println("")
+	// fmt.Println("COMMANDS:")
+	// fmt.Println("")
+	// fmt.Println("\t binary-helix help\t\t\t\t\t--> Outputs information on how to use this CLI")
+	// fmt.Println("\t binary-helix register-node IP:PORT\t\t\t--> Registers your device as a server-node to donate computation.")
+	// fmt.Println("\t binary-helix check-nodes\t\t\t\t--> Outputs the Complement of the DNA of an input .fa file.")
+	// fmt.Println("\t binary-helix boyer-moore FILE PATTERN\t\t\t--> Performs Boyer-Moors searching algorithm on an input .fastq file")
+	// fmt.Println("\t binary-helix boyer-moore-node FILE PATTERN\t\t--> Performs Boyer-Moors searching algorithm on an input .fastq file utilizing cluster.")
+	// fmt.Println("\t binary-helix complement FILE\t\t\t\t--> Outputs the Complement of the DNA of an input .fa file.")
+	// fmt.Println("\t binary-helix complement-node FILE\t\t\t--> Outputs the Complement of the DNA of an input .fa file utilizing cluster.")
+	// fmt.Println("\t binary-helix reverse-complement FILE\t\t\t--> Outputs the Reverse Complement of the DNA of an input .fa file.")
+	// fmt.Println("\t binary-helix reverse-complement-node FILE\t\t--> Outputs the Reverse Complement of the DNA of an input .fa file utilizing cluster.")
+	// fmt.Println("\t binary-helix exact-match FILE PATTERN\t\t\t--> Outputs the Exact Match of the DNA read from an input .fa file.")
+	// fmt.Println("\t binary-helix exact-match-node FILE PATTERN\t\t--> Outputs the Exact Match of the DNA read from an input .fa file utilizing cluster.")
+	// fmt.Println("\t binary-helix k-mer FILE NUMBER\t\t\t\t--> Outputs the K-Mer Index of the DNA read from an input .fa file.")
+	// fmt.Println("\t binary-helix longest-common-prefix FILE PATTERN\t--> Outputs the Longest Common Prefix the DNA read has with an input .fa file.")
+	// fmt.Println("\t binary-helix total-bases-of-each FILE \t\t\t--> Outputs the Total Number of Each Base in the DNA read has with an input .fa file.")
+	// fmt.Println("\t binary-helix server\t\t\t\t\t--> Starts the server on port `4040`, turning your device into a supercomputer node.")
+	// fmt.Println("\t binary-helix admin_clear-db\t\t\t\t--> Clear EVERY item on the database. USE WITH CAUTION!")
+	// fmt.Println("")
 }
