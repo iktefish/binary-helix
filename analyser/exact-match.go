@@ -10,10 +10,10 @@ func ExactMatch(p string, t string) []int {
 				match = false
 				break
 			}
+		}
         if match == true {
             occurrences = append(occurrences, i)
         }
-		}
 	}
 
 	return occurrences
