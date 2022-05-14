@@ -12,24 +12,24 @@ import (
 )
 
 func Reader(path string) (string, []byte, int) {
-	if utils.Verify_FileExt(path) {
+	if utils.Verify_FileExt(path) != true {
 		log.Fatal("FAIL [PANIC]: Please enter path to a '.fa' or '.fastq' file!")
 	}
 
 	genome, err := ioutil.ReadFile(path)
 	if err != nil {
-        fmt.Println("FAIL: Please enter a proper path to a file!")
+		fmt.Println("FAIL: Please enter a proper path to a file!")
 		utils.HandleError(err)
 	}
 
 	var processed []byte
 	var lineCount int
 
-	if filepath.Ext(path) == ".fa" {
+	if utils.Verify_Fasta(path) {
 		processed, lineCount = preProcess_fa(genome)
 	}
 
-	if filepath.Ext(path) == ".fastq" {
+	if utils.Verify_Fastq(path) {
 		processed, lineCount = preProcess_fq(genome)
 	}
 
