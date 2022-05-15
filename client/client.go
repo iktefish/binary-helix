@@ -34,7 +34,11 @@ func Check_Server() {
 	for i := 0; i < nodeCount; i++ {
 		client, err = rpc.DialHTTP("tcp", nodes[i].TargetIP_Port)
 		if err != nil {
-			utils.HandleError(err)
+			fmt.Println("\nDANGER:")
+			fmt.Println("\t One or more nodes are dead. Please troubleshoot.")
+			fmt.Println()
+			return
+			// utils.HandleError(err)
 		}
 
 		isAlive := "Dead"
@@ -130,32 +134,49 @@ func TaskServer(s []string, cId string, aArt []schema.Analysis, extra string) {
 			if aArt[n].Task == utils.AnalyserList[0] {
 				var response string
 				client.Call("API.CallBoyerMoore", inList, &response)
-				fmt.Println("|>", response)
-				fmt.Println(node.TargetIP_Port)
-				fmt.Println(nodes)
+				// fmt.Println("|>", response)
+				// fmt.Println(node.TargetIP_Port)
+				// fmt.Println(nodes)
 				Merger(cId, aArt[n], response)
 				mu.Lock()
 				responses = append(responses, response)
 				mu.Unlock()
-
 			}
 
 			if aArt[n].Task == utils.AnalyserList[1] {
 				var response string
 				client.Call("API.CallComplement", inList[1], &response)
-				fmt.Println("|>", response)
+				// fmt.Println("|>", response)
+				// fmt.Println(node.TargetIP_Port)
+				// fmt.Println(nodes)
+				Merger(cId, aArt[n], response)
+				mu.Lock()
+				responses = append(responses, response)
+				mu.Unlock()
 			}
 
 			if aArt[n].Task == utils.AnalyserList[2] {
 				var response string
 				client.Call("API.CallReverseComplement", inList[1], &response)
-				fmt.Println("|>", response)
+				// fmt.Println("|>", response)
+				// fmt.Println(node.TargetIP_Port)
+				// fmt.Println(nodes)
+				Merger(cId, aArt[n], response)
+				mu.Lock()
+				responses = append(responses, response)
+				mu.Unlock()
 			}
 
 			if aArt[n].Task == utils.AnalyserList[3] {
 				var response string
 				client.Call("API.CallExactMatch", inList, &response)
-				fmt.Println("|>", response)
+				// fmt.Println("|>", response)
+				// fmt.Println(node.TargetIP_Port)
+				// fmt.Println(nodes)
+				Merger(cId, aArt[n], response)
+				mu.Lock()
+				responses = append(responses, response)
+				mu.Unlock()
 			}
 
 			// /* INCOMPLETE */
@@ -180,8 +201,19 @@ func TaskServer(s []string, cId string, aArt []schema.Analysis, extra string) {
 		}()
 		wg.Wait()
 	}
-	fmt.Println(responses)
 
+	fmt.Println("\nOUTPUT:\t")
+	fmt.Println()
+	fmt.Print("\t")
+	for _, response := range responses {
+		if aArt[0].Task == utils.AnalyserList[0] || aArt[0].Task == utils.AnalyserList[3] {
+			fmt.Print(" ", response)
+		}
+		if aArt[0].Task == utils.AnalyserList[1] || aArt[0].Task == utils.AnalyserList[2] {
+			fmt.Print("", response)
+		}
+	}
+	fmt.Print("\n\n")
 }
 
 func Merger(cId string, aArt schema.Analysis, split string) {
