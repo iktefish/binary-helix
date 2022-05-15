@@ -1,27 +1,15 @@
 package analyser
 
 import (
-	"fmt"
 	"strings"
-
-	"github.com/iktefish/binary-helix/workers"
 )
 
-func Id_SeqQual(s []string) {
-	path := "./test/input/small_sra_data.fastq"
-
-	fileExt, processed, lineCount := workers.Reader(path)
-	splits := workers.Splitter(fileExt, processed, lineCount)
-
-	split := splits[0]
-
-	fmt.Println(split)
-
+func Id_SeqQual(in string) (string, []int) {
 	var quals string
 	var seqs string
 
 	nlineCount := 0
-	for _, line := range strings.Split(strings.TrimRight(split, "\n"), "\n") {
+	for _, line := range strings.Split(strings.TrimRight(in, "\n"), "\n") {
 		nlineCount += 1
 		if nlineCount%2 == 0 {
 			quals += line
@@ -29,13 +17,13 @@ func Id_SeqQual(s []string) {
 			seqs += line
 		}
 	}
-	// fmt.Println("Q~>", quals)
-	// fmt.Println("S~>", seqs)
 
-	// get_Q(quals)
-	// get_Phred33(get_Q(quals))
-	fmt.Println(get_Phred33(get_Q(quals)))
-	// fmt.Println(get_Q(quals))
+	/* fmt.Println("Q~>", quals)
+	fmt.Println("S~>", seqs)
+	get_Q(quals)
+	get_Phred33(get_Q(quals)) */
+
+    return quals, get_Q(quals)
 }
 
 func conv_Phred33ToQ(phredRune rune) int {
@@ -49,7 +37,6 @@ func get_Q(phred string) []int {
 		conv_Phred33ToQ(phredRune)
 		Q = append(Q, int(phredRune))
 	}
-
 	return Q
 }
 
@@ -64,6 +51,5 @@ func get_Phred33(Qs []int) string {
 		conv_QToPhred33(Q)
 		phred += string(Q)
 	}
-
 	return phred
 }

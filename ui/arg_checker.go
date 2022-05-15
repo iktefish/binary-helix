@@ -33,6 +33,7 @@ var Valid_Args []string = []string{
 	"admin-clear-db",
 	"blockchain-state",
 	"restore-broken-computation",
+	"qual",
 }
 
 // Take in the list of arguments passed by user and execute helper
@@ -398,7 +399,7 @@ func Arg_Checker(arg []string) {
 			case 0:
 				fmt.Printf("\nFAIL:\t Invalid argument length! The `total-bases-of-each` command expects 1 arguments:\n")
 				fmt.Println()
-				fmt.Printf("\t\t 1. Path to a `.fa` file containing genome of.\n")
+				fmt.Printf("\t\t 1. Path to a `.fa` file containing genome.\n")
 				fmt.Println()
 				return
 			case 1:
@@ -414,6 +415,38 @@ func Arg_Checker(arg []string) {
 	// Execute server
 	if strings.ToLower(arg[1]) == Valid_Args[15] {
 		helper_serve()
+		return
+	}
+
+	// Compute quality scores
+	if strings.ToLower(arg[1]) == Valid_Args[19] {
+		catch_bool, catch_code := helper_qual(arg)
+		if catch_bool != true {
+			switch catch_code {
+			case 0:
+				fmt.Printf("\nFAIL:\t Invalid argument length! The `qual` command expects 2 arguments:\n")
+				fmt.Println()
+				fmt.Printf("\t\t 1. Path to a `.fastq`.\n")
+				fmt.Printf("\t\t 2. Option: \n")
+				fmt.Println()
+				fmt.Println("\t\t\t 'q' for standard Q values")
+				fmt.Println("\t\t\t 'p' for standard Phred33 values")
+				fmt.Println()
+				return
+			case 1:
+				fmt.Printf("\nFAIL:\t Invalid argument! First argument of the `qual` command must be path to a `.fastq` file.\n")
+				fmt.Println()
+				return
+			case 2:
+				fmt.Printf("\nFAIL:\t Invalid argument! Second argument of the `qual` command must be format option.\n")
+				fmt.Println()
+				fmt.Println("\t\t 'q' for standard Q values")
+				fmt.Println("\t\t 'p' for standard Phred33 values")
+				fmt.Println()
+				return
+			}
+			return
+		}
 		return
 	}
 }
@@ -460,7 +493,8 @@ func helper_help(arg []string) bool {
 	fmt.Println("\t binary-helix k-mer FILE TO FROM\t\t\t--> Outputs the K-Mer Index of the DNA read from an input .fa file.")
 	fmt.Println("\t binary-helix longest-common-prefix FILE PATTERN\t--> Outputs the Longest Common Prefix the DNA read has with an input .fa file.")
 	fmt.Println("\t binary-helix total-bases-of-each FILE \t\t\t--> Outputs the Total Number of Each Base in the DNA read has with an input .fa file.")
-	fmt.Println("\t binary-helix server\t\t\t\t\t--> Starts the server on port `4040`, turning your device into a supercomputer node.")
+	fmt.Println("\t binary-helix serve\t\t\t\t\t--> Starts the server on port `4040`, turning your device into a supercomputer node.")
+	fmt.Println("\t binary-helix qual FILE OPTION\t\t\t\t--> Outputs the quality scores, encoded in format provided in option, of .fastq file.")
 	fmt.Println("\t binary-helix admin_clear-db\t\t\t\t--> Clear EVERY item on the database. USE WITH CAUTION!")
 	fmt.Println("")
 
@@ -839,6 +873,42 @@ func helper_total_bases_of_each(arg []string) (bool, int) {
 	fmt.Println("\t Number of Thymine(s)  ~~> ", Ts)
 	fmt.Println("")
 	return true, 0
+}
+
+// Compute the quality scores of a .fastq file. Quality encoding depends on the option (either 'q' or
+// 'p') provided.
+func helper_qual(arg []string) (bool, int) {
+	if len(arg) != 4 {
+		return false, 0
+	}
+
+	path := arg[2]
+	if utils.Verify_Fastq(path) != true {
+		return false, 1
+	}
+
+	option := arg[3]
+
+	_, processed, _ := workers.Reader(path)
+	output_phred, output_q := analyser.Id_SeqQual(string(processed))
+
+	if strings.ToLower(option) == "q" {
+		fmt.Println("\nQUALITY SCORE [ Q ]")
+		fmt.Println()
+		for _, output := range output_q {
+			fmt.Print(" ", output)
+		}
+		fmt.Print("\n\n")
+		return true, 0
+	}
+	if strings.ToLower(option) == "p" {
+		fmt.Println("\nQUALITY SCORE [ Phred33 ]")
+		fmt.Println()
+		fmt.Println(output_phred)
+		fmt.Println("")
+		return true, 0
+	}
+	return false, 2
 }
 
 // Start server on port 4040.
