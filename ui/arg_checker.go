@@ -6,6 +6,7 @@ import (
 
 	"github.com/iktefish/binary-helix/analyser"
 	"github.com/iktefish/binary-helix/client"
+	"github.com/iktefish/binary-helix/server"
 	"github.com/iktefish/binary-helix/types"
 	"github.com/iktefish/binary-helix/utils"
 	"github.com/iktefish/binary-helix/workers"
@@ -27,6 +28,7 @@ var Valid_Args []string = []string{
 	"exact-match-node",
 	"k-mer",
 	"longest-common-prefix",
+	"total-bases-of-each",
 	"serve",
 	"admin-clear-db",
 	"blockchain-state",
@@ -342,7 +344,7 @@ func Arg_Checker(arg []string) {
 				fmt.Println()
 				return
 			case 1:
-				fmt.Printf("\nFAIL:\t Invalid argument! First argument of the `exact-match-node` command must be path to a `.fa` file.\n")
+				fmt.Printf("\nFAIL:\t Invalid argument! First argument of the `k-mer` command must be path to a `.fa` file.\n")
 				fmt.Println()
 				return
 			case 2:
@@ -358,6 +360,60 @@ func Arg_Checker(arg []string) {
 			}
 			return
 		}
+		return
+	}
+
+	// Longest Common Prefix
+	if strings.ToLower(arg[1]) == Valid_Args[13] {
+		catch_bool, catch_code := helper_longest_common_prefix(arg)
+		if catch_bool != true {
+			switch catch_code {
+			case 0:
+				fmt.Printf("\nFAIL:\t Invalid argument length! The `longest-common-prefix` command expects 2 arguments:\n")
+				fmt.Println()
+				fmt.Printf("\t\t 1. Path to a `.fa` file containing genome of variant A.\n")
+				fmt.Printf("\t\t 2. Path to a `.fa` file containing genome of variant B.\n")
+				fmt.Println()
+				return
+			case 1:
+				fmt.Printf("\nFAIL:\t Invalid argument! Both arguments of the `longest-common-prefix` command must be path to a `.fa` file.\n")
+				fmt.Println()
+				return
+			case 2:
+				fmt.Println("FAIL:\t The DNA sequences are not from the same Genome!")
+				fmt.Println("\t The size of the DNA sequence must be equal to perform this match.")
+				fmt.Println()
+				return
+			}
+			return
+		}
+		return
+	}
+
+	// Total Bases of Each
+	if strings.ToLower(arg[1]) == Valid_Args[14] {
+		catch_bool, catch_code := helper_total_bases_of_each(arg)
+		if catch_bool != true {
+			switch catch_code {
+			case 0:
+				fmt.Printf("\nFAIL:\t Invalid argument length! The `total-bases-of-each` command expects 1 arguments:\n")
+				fmt.Println()
+				fmt.Printf("\t\t 1. Path to a `.fa` file containing genome of.\n")
+				fmt.Println()
+				return
+			case 1:
+				fmt.Printf("\nFAIL:\t Invalid argument! Argument of the `total-bases-of-each` command must be path to a `.fa` file.\n")
+				fmt.Println()
+				return
+			}
+			return
+		}
+		return
+	}
+
+	// Execute server
+	if strings.ToLower(arg[1]) == Valid_Args[15] {
+		helper_serve()
 		return
 	}
 }
@@ -735,19 +791,60 @@ func helper_k_mer(arg []string) (bool, int) {
 
 // Computes the longest common prefix shared between 2 genome of the same species.
 // Make sure the input file is a proper `.fa` file.
-func helper_longest_common_prefix() bool {
-	return false
+func helper_longest_common_prefix(arg []string) (bool, int) {
+	if len(arg) != 4 {
+		return false, 0
+	}
+
+	path_1 := arg[2]
+	path_2 := arg[3]
+	if utils.Verify_Fasta(path_1) != true && utils.Verify_Fasta(path_2) != true {
+		return false, 1
+	}
+
+	_, processed_1, _ := workers.Reader(path_1)
+	_, processed_2, _ := workers.Reader(path_2)
+	str_1 := string(processed_1)
+	str_2 := string(processed_2)
+
+	if len(str_1) != len(str_2) {
+		return false, 2
+	}
+
+	lcp := analyser.LongestCommonPrefix(str_1, str_2)
+	fmt.Println("\nOUTPUT:")
+	fmt.Println("\t", lcp)
+	return true, 0
 }
 
 // Determines the total count of each bases present in a genome. Make sure the input
 // file is a proper `.fa` file.
-func helper_total_bases_of_each() bool {
-	return false
+func helper_total_bases_of_each(arg []string) (bool, int) {
+	if len(arg) != 3 {
+		return false, 0
+	}
+
+	path := arg[2]
+	if utils.Verify_Fasta(path) != true {
+		return false, 1
+	}
+
+	As, Cs, Gs, Ts := analyser.TotalBasesOfEach(path)
+
+	fmt.Println("\nOUTPUT:")
+	fmt.Println()
+	fmt.Println("\t Number of Adenine(s)  ~~> ", As)
+	fmt.Println("\t Number of Cytosine(s) ~~> ", Cs)
+	fmt.Println("\t Number of Guanine(s)  ~~> ", Gs)
+	fmt.Println("\t Number of Thymine(s)  ~~> ", Ts)
+	fmt.Println("")
+	return true, 0
 }
 
-// Execute server.
-func helper_server() bool {
-	return false
+// Start server on port 4040.
+func helper_serve() bool {
+	server.Server()
+	return true
 }
 
 // Echo current blockchain state for SliceCoin in std::out.
