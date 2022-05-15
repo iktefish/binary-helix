@@ -1,5 +1,7 @@
 package analyser
 
+import "strings"
+
 type IndexArt struct {
 	K int
 	I []Index
@@ -24,7 +26,7 @@ func (IA *IndexArt) Init(t string, k int) {
 
 	for i := 0; i <= len(t)-k; i++ {
 		idx := Index{
-			Key: t[i : i+k],
+			Key: strings.Trim(t[i:i+k], "\n"),
 			Val: i,
 		}
 		IA.I = append(IA.I, idx)
