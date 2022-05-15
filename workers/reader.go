@@ -23,24 +23,24 @@ func Reader(path string) (string, []byte, int) {
 	}
 
 	var processed []byte
-	var lineCount int
+	var line_count int
 
 	if utils.Verify_Fasta(path) {
-		processed, lineCount = preProcess_fa(genome)
+		processed, line_count = pre_process_fa(genome)
 	}
 
 	if utils.Verify_Fastq(path) {
-		processed, lineCount = preProcess_fq(genome)
+		processed, line_count = pre_process_fq(genome)
 	}
 
-	return filepath.Ext(path), processed, lineCount
+	return filepath.Ext(path), processed, line_count
 }
 
-func preProcess_fa(b []byte) ([]byte, int) {
+func pre_process_fa(b []byte) ([]byte, int) {
 	var wg sync.WaitGroup
 	wg.Add(1)
 
-	lineCount := 0
+	line_count := 0
 	anchor := 0
 
 	var output []byte
@@ -54,7 +54,7 @@ func preProcess_fa(b []byte) ([]byte, int) {
 			}
 
 			if bc == byte(10) {
-				lineCount += 1
+				line_count += 1
 				if anchor != 0 {
 					output = b[i:]
 					anchor = 0
@@ -64,14 +64,14 @@ func preProcess_fa(b []byte) ([]byte, int) {
 	}()
 
 	wg.Wait()
-	return output, lineCount
+	return output, line_count
 }
 
-func preProcess_fq(b []byte) ([]byte, int) {
+func pre_process_fq(b []byte) ([]byte, int) {
 	var wg sync.WaitGroup
 	wg.Add(1)
 
-	lineCount := 0
+	line_count := 0
 	anchor := 0
 
 	var output []byte
@@ -81,13 +81,13 @@ func preProcess_fq(b []byte) ([]byte, int) {
 
 		for i, bc := range b {
 			if bc == byte(10) {
-				lineCount += 1
+				line_count += 1
 
-				if lineCount%2 != 0 {
+				if line_count%2 != 0 {
 					anchor = i
 				}
 
-				if lineCount%2 == 0 {
+				if line_count%2 == 0 {
 					output = append(output, b[anchor:i]...)
 				}
 			}
@@ -95,5 +95,5 @@ func preProcess_fq(b []byte) ([]byte, int) {
 	}()
 
 	wg.Wait()
-	return output, lineCount
+	return output, line_count
 }
