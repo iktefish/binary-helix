@@ -31,7 +31,7 @@ func (a *API) CallBoyerMoore(argFromCaller []string, resultFromFunction *string)
 	// func (a *API) CallBoyerMoore(argFromCaller []string, resultFromFunction *[]int) error {
 	pBM := types.ConstructBM(argFromCaller[3])
 	out := analyser.BoyerMoore(argFromCaller[3], pBM, argFromCaller[1])
-	send := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(out)), " : "), "[]")
+	send := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(out)), " "), "[]")
 	*resultFromFunction = send
 	// *resultFromFunction = out
 

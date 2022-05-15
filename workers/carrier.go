@@ -55,10 +55,7 @@ func Carrier(ss []string, an string, extra string) bool {
 		go splitToDb(i, s, &wg, computationId, analysisArts[i])
 	}
 
-	for i, s := range ss {
-		wg.Add(1)
-		go splitToServer(i, s, &wg, computationId, analysisArts[i], extra)
-
+	for i, _ := range ss {
 		chain := blockchain.InitBlockChain()
 		chain.AddBlock(computationId, analysisArts[i].TargetIP_Port)
 
@@ -73,6 +70,7 @@ func Carrier(ss []string, an string, extra string) bool {
 			fmt.Println("\n")
 		}
 	}
+	splitToServer(ss, computationId, analysisArts, extra)
 
 	wg.Wait()
 
@@ -100,7 +98,6 @@ func splitToDb(i int, s string, wg *sync.WaitGroup, cId string, aArt schema.Anal
 	utils.HandleError(err)
 }
 
-func splitToServer(i int, s string, wg *sync.WaitGroup, cId string, aArt schema.Analysis, extra string) {
-	defer wg.Done()
-	client.TaskServer(string(i), s, cId, aArt, extra)
+func splitToServer(s []string, cId string, aArt []schema.Analysis, extra string) {
+	client.TaskServer(s, cId, aArt, extra)
 }

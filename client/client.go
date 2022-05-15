@@ -98,11 +98,15 @@ func RegisterNode(ip_port string, node_name string) bool {
 	return true
 }
 
-func TaskServer(i string, s string, cId string, aArt schema.Analysis, extra string) {
+func TaskServer(s []string, cId string, aArt []schema.Analysis, extra string) {
+	var wg sync.WaitGroup
+	var mu sync.Mutex
 	nodes := utils.Get_ActiveNodes()
 
-	var inList []string
-	inList = append(inList, i, s, cId, extra)
+	var responses []string
+
+	// var inList []string
+	// inList = append(inList, i, s, cId, extra)
 
 	// for i, iL := range inList {
 	// 	fmt.Println(i, ">> ", iL)
@@ -111,58 +115,72 @@ func TaskServer(i string, s string, cId string, aArt schema.Analysis, extra stri
 	// fmt.Println("->", len(inList))
 	// fmt.Println("Task->", aArt.Task)
 
-	for _, n := range nodes {
-		client, err := rpc.DialHTTP("tcp", n.TargetIP_Port)
-		if err != nil {
-			utils.HandleError(err)
-		}
+	for n, node := range nodes {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			var inList []string
+			inList = append(inList, "", s[n], cId, extra)
 
-		if aArt.Task == utils.AnalyserList[0] {
-			var response string
-			client.Call("API.CallBoyerMoore", inList, &response)
-			fmt.Println("|>", response)
-			Merger(cId, aArt, response)
-		}
+			client, err := rpc.DialHTTP("tcp", node.TargetIP_Port)
+			if err != nil {
+				utils.HandleError(err)
+			}
 
-		if aArt.Task == utils.AnalyserList[1] {
-			var response string
-			client.Call("API.CallComplement", inList[1], &response)
-			fmt.Println("|>", response)
-		}
+			if aArt[n].Task == utils.AnalyserList[0] {
+				var response string
+				client.Call("API.CallBoyerMoore", inList, &response)
+				fmt.Println("|>", response)
+				fmt.Println(node.TargetIP_Port)
+				fmt.Println(nodes)
+				Merger(cId, aArt[n], response)
+				mu.Lock()
+				responses = append(responses, response)
+				mu.Unlock()
 
-		if aArt.Task == utils.AnalyserList[2] {
-			var response string
-			client.Call("API.CallReverseComplement", inList[1], &response)
-			fmt.Println("|>", response)
-		}
+			}
 
-		if aArt.Task == utils.AnalyserList[3] {
-			var response string
-			client.Call("API.CallExactMatch", inList, &response)
-			fmt.Println("|>", response)
-		}
+			if aArt[n].Task == utils.AnalyserList[1] {
+				var response string
+				client.Call("API.CallComplement", inList[1], &response)
+				fmt.Println("|>", response)
+			}
 
-		// /* INCOMPLETE */
-		// if aArt.Task == utils.AnalyserList[4] {
-		//  var response string
-		// 	client.Call("API.CallKMerIndex", inList, &response)
-		// }
-		//
-		// if aArt.Task == utils.AnalyserList[5] {
-		//  var response string
-		// 	client.Call("API.CallLongestCommonPrefix", inList, &response)
-		// }
-		//
-		// if aArt.Task == utils.AnalyserList[7] {
-		//  var response string
-		// 	client.Call("API.CallTotalBasesOfEach", inList[3], &response)
-		// }
-		// if aArt.Task == utils.AnalyserList[8] {
-		//  var response string
-		// 	client.Call("API.CallIdQual", inList, &response)
-		// }
+			if aArt[n].Task == utils.AnalyserList[2] {
+				var response string
+				client.Call("API.CallReverseComplement", inList[1], &response)
+				fmt.Println("|>", response)
+			}
 
+			if aArt[n].Task == utils.AnalyserList[3] {
+				var response string
+				client.Call("API.CallExactMatch", inList, &response)
+				fmt.Println("|>", response)
+			}
+
+			// /* INCOMPLETE */
+			// if aArt.Task == utils.AnalyserList[4] {
+			//  var response string
+			// 	client.Call("API.CallKMerIndex", inList, &response)
+			// }
+			//
+			// if aArt.Task == utils.AnalyserList[5] {
+			//  var response string
+			// 	client.Call("API.CallLongestCommonPrefix", inList, &response)
+			// }
+			//
+			// if aArt.Task == utils.AnalyserList[7] {
+			//  var response string
+			// 	client.Call("API.CallTotalBasesOfEach", inList[3], &response)
+			// }
+			// if aArt.Task == utils.AnalyserList[8] {
+			//  var response string
+			// 	client.Call("API.CallIdQual", inList, &response)
+			// }
+		}()
+		wg.Wait()
 	}
+	fmt.Println(responses)
 
 }
 
