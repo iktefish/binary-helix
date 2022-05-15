@@ -16,7 +16,9 @@ then you must define the type here too. Its best to share the type to
 both server and client.
 */
 
-func CheckServers() {
+// Query database to retrieve list of active servers, and ping each
+// server to check their status.
+func Check_Server() {
 	var client *rpc.Client
 	var err error
 
@@ -27,6 +29,8 @@ func CheckServers() {
 		nodes = utils.Get_ActiveNodes()
 	}
 
+	fmt.Printf("\nResponse:\n")
+	fmt.Println()
 	for i := 0; i < nodeCount; i++ {
 		client, err = rpc.DialHTTP("tcp", nodes[i].TargetIP_Port)
 		if err != nil {
@@ -34,13 +38,12 @@ func CheckServers() {
 		}
 
 		isAlive := "Dead"
-
 		var response string
-
 		client.Call("API.ImAlive", isAlive, &response)
 
-		fmt.Printf("\t Response from %v \t~~> %v\n", nodes[i].TargetIP_Port, response)
+		fmt.Printf("\t • %v \t~~> %v\n", nodes[i].TargetIP_Port, response)
 	}
+	fmt.Println()
 }
 
 func RegisterNode(ip_port string, node_name string) bool {
@@ -116,7 +119,6 @@ func TaskServer(i string, s string, cId string, aArt schema.Analysis, extra stri
 
 		if aArt.Task == utils.AnalyserList[0] {
 			var response string
-			// var response []int
 			client.Call("API.CallBoyerMoore", inList, &response)
 			fmt.Println("|>", response)
 			Merger(cId, aArt, response)
@@ -171,19 +173,19 @@ func Merger(cId string, aArt schema.Analysis, split string) {
 	slicesDb := client.Database("slices_db")
 	slices := slicesDb.Collection("slices")
 
-    // aArt.MergedOutput = split
+	// aArt.MergedOutput = split
 
-    var i int32
+	var i int32
 
-    var responses []string
-    responses = append(responses, split)
+	var responses []string
+	responses = append(responses, split)
 
 	slice := schema.Slices{
 		ComputationId: cId,
 		SplitOrder:    i,
 		Content:       split,
 		AnalysisArt:   aArt,
-        MergedOutput: responses,
+		MergedOutput:  responses,
 	}
 
 	/* Insert slice in slices collection */

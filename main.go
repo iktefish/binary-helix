@@ -6,7 +6,7 @@ import (
 
 	// "strconv"
 	"strings"
-	"sync"
+	// "sync"
 
 	"github.com/iktefish/binary-helix/analyser"
 	"github.com/iktefish/binary-helix/ui"
@@ -14,7 +14,7 @@ import (
 
 	// "github.com/iktefish/binary-helix/schema"
 	"github.com/iktefish/binary-helix/server"
-	"github.com/iktefish/binary-helix/types"
+	// "github.com/iktefish/binary-helix/types"
 	"github.com/iktefish/binary-helix/utils"
 	"github.com/iktefish/binary-helix/workers"
 )
@@ -33,40 +33,40 @@ func main() {
 	// 	client.RegisterNode("172.17.0.3:4042", "binary-helix_c2")
 	// }
 
-	if arg[1] == "BoyerMoore" {
-		// pBM := types.BoyerMoore{}
-		t := "GCTACGATCTAGAATCTA"
-		p := "TCTA"
-		// t := "TCTA"
-		// pBM.Init(p)
-		pBM := types.ConstructBM(p)
+	// if arg[1] == "BoyerMoore" {
+	// 	// pBM := types.BoyerMoore{}
+	// 	t := "GCTACGATCTAGAATCTA"
+	// 	p := "TCTA"
+	// 	// t := "TCTA"
+	// 	// pBM.Init(p)
+	// 	pBM := types.ConstructBM(p)
 
-		// p_bm := types.BoyerMoore(p)
+	// 	// p_bm := types.BoyerMoore(p)
 
-		fmt.Println("t[7:11] ~~> ", t[7:11])
-		fmt.Println("t[14:18] ~~> ", t[14:18])
+	// 	fmt.Println("t[7:11] ~~> ", t[7:11])
+	// 	fmt.Println("t[14:18] ~~> ", t[14:18])
 
-		fmt.Println(pBM.Bad_Character_Rule(2, "T"))
-		fmt.Println(analyser.BoyerMoore(p, pBM, t))
-	}
+	// 	fmt.Println(pBM.Bad_Character_Rule(2, "T"))
+	// 	fmt.Println(analyser.BoyerMoore(p, pBM, t))
+	// }
 
-	if arg[1] == "ExactMatch" {
-		t := "GCTACGATCTAGAATCTA"
-		p := "TC"
-		extMatch := analyser.ExactMatch(p, t)
-		fmt.Println(extMatch)
-	}
+	// if arg[1] == "ExactMatch" {
+	// 	t := "GCTACGATCTAGAATCTA"
+	// 	p := "TC"
+	// 	extMatch := analyser.ExactMatch(p, t)
+	// 	fmt.Println(extMatch)
+	// }
 
-	if arg[1] == "Read" {
-		// path := "test/input/phix.fa"
-		// path := "./test/input/sra_data.fastq"
+	// if arg[1] == "Read" {
+	// 	// path := "test/input/phix.fa"
+	// 	// path := "./test/input/sra_data.fastq"
 
-		// path := "./test/input/small_sra_data.fastq"
+	// 	// path := "./test/input/small_sra_data.fastq"
 
-		// fileExt, processed, lineCount := workers.Reader(path)
-		// splits := workers.Splitter(fileExt, processed, lineCount)
-		// workers.Carrier(splits, "quality-scores")
-	}
+	// 	// fileExt, processed, lineCount := workers.Reader(path)
+	// 	// splits := workers.Splitter(fileExt, processed, lineCount)
+	// 	// workers.Carrier(splits, "quality-scores")
+	// }
 
 	if arg[1] == "Qual" {
 		path := "./sample/small_sra_data.fastq"
@@ -179,22 +179,22 @@ func main() {
 		}
 	}
 
-	/* Boyer-Moore (Node) */
-	if strings.ToLower(arg[1]) == "boyer-moore-node" {
-		if len(arg) != 4 {
-			fmt.Println("FAIL:\t Please provide proper list of arguments!")
-			fmt.Println("\t Type `binary-helix help` for more information.")
-
-			return
-		}
-
-		path := arg[2]
-		p := arg[3]
-
-		fileExt, processed, lineCount := workers.Reader(path)
-		splits := workers.Splitter(fileExt, processed, lineCount)
-		workers.Carrier(splits, utils.AnalyserList[0], p)
-	}
+	// /* Boyer-Moore (Node) */
+	// if strings.ToLower(arg[1]) == "boyer-moore-node" {
+	// 	if len(arg) != 4 {
+	// 		fmt.Println("FAIL:\t Please provide proper list of arguments!")
+	// 		fmt.Println("\t Type `binary-helix help` for more information.")
+	//
+	// 		return
+	// 	}
+	//
+	// 	path := arg[2]
+	// 	p := arg[3]
+	//
+	// 	fileExt, processed, lineCount := workers.Reader(path)
+	// 	splits := workers.Splitter(fileExt, processed, lineCount)
+	// 	workers.Carrier(splits, utils.AnalyserList[0], p)
+	// }
 
 	/* Boyer-Moore */
 	// if strings.ToLower(arg[1]) == "boyer-moore" {
@@ -218,113 +218,113 @@ func main() {
 	// 	fmt.Println("\t ", out)
 	// }
 
-	/* Complement (Node) */
-	if strings.ToLower(arg[1]) == "complement-node" {
-		if len(arg) > 3 {
-			fmt.Println("FAIL:\t  Please provide proper list of arguments!")
-			fmt.Println("\t Type `binary-helix help` for more information.")
+	// /* Complement (Node) */
+	// if strings.ToLower(arg[1]) == "complement-node" {
+	// 	if len(arg) > 3 {
+	// 		fmt.Println("FAIL:\t  Please provide proper list of arguments!")
+	// 		fmt.Println("\t Type `binary-helix help` for more information.")
 
-			return
-		}
+	// 		return
+	// 	}
 
-		path := arg[2]
-		p := ""
+	// 	path := arg[2]
+	// 	p := ""
 
-		fileExt, processed, lineCount := workers.Reader(path)
-		splits := workers.Splitter(fileExt, processed, lineCount)
-		workers.Carrier(splits, utils.AnalyserList[1], p)
-	}
+	// 	fileExt, processed, lineCount := workers.Reader(path)
+	// 	splits := workers.Splitter(fileExt, processed, lineCount)
+	// 	workers.Carrier(splits, utils.AnalyserList[1], p)
+	// }
 
-	/* Complement */
-	if strings.ToLower(arg[1]) == "complement" {
-		if len(arg) > 3 {
-			fmt.Println("FAIL:\t  Please provide proper list of arguments!")
-			fmt.Println("\t Type `binary-helix help` for more information.")
+	// /* Complement */
+	// if strings.ToLower(arg[1]) == "complement" {
+	// 	if len(arg) > 3 {
+	// 		fmt.Println("FAIL:\t  Please provide proper list of arguments!")
+	// 		fmt.Println("\t Type `binary-helix help` for more information.")
 
-			return
-		}
+	// 		return
+	// 	}
 
-		path := arg[2]
-		// p := ""
+	// 	path := arg[2]
+	// 	// p := ""
 
-		_, processed, _ := workers.Reader(path)
-		// splits := workers.Splitter(fileExt, processed, lineCount)
-		// workers.Carrier(splits, utils.AnalyserList[0], p)
+	// 	_, processed, _ := workers.Reader(path)
+	// 	// splits := workers.Splitter(fileExt, processed, lineCount)
+	// 	// workers.Carrier(splits, utils.AnalyserList[0], p)
 
-		out := analyser.Complement(string(processed))
-		fmt.Println("OUTPUT:\t")
-		fmt.Println("\t ", out)
-	}
+	// 	out := analyser.Complement(string(processed))
+	// 	fmt.Println("OUTPUT:\t")
+	// 	fmt.Println("\t ", out)
+	// }
 
-	/* Reverse Complement (Node) */
-	if strings.ToLower(arg[1]) == "reverse-complement-node" {
-		if len(arg) > 3 {
-			fmt.Println("FAIL:\t Please provide proper list of arguments!")
-			fmt.Println("\t Type `binary-helix help` for more information.")
+	// /* Reverse Complement (Node) */
+	// if strings.ToLower(arg[1]) == "reverse-complement-node" {
+	// 	if len(arg) > 3 {
+	// 		fmt.Println("FAIL:\t Please provide proper list of arguments!")
+	// 		fmt.Println("\t Type `binary-helix help` for more information.")
 
-			return
-		}
+	// 		return
+	// 	}
 
-		path := arg[2]
-		p := ""
+	// 	path := arg[2]
+	// 	p := ""
 
-		fileExt, processed, lineCount := workers.Reader(path)
-		splits := workers.Splitter(fileExt, processed, lineCount)
-		workers.Carrier(splits, utils.AnalyserList[2], p)
-	}
+	// 	fileExt, processed, lineCount := workers.Reader(path)
+	// 	splits := workers.Splitter(fileExt, processed, lineCount)
+	// 	workers.Carrier(splits, utils.AnalyserList[2], p)
+	// }
 
-	/* Reverse Complement */
-	if strings.ToLower(arg[1]) == "reverse-complement" {
-		if len(arg) > 3 {
-			fmt.Println("FAIL:\t Please provide proper list of arguments!")
-			fmt.Println("\t Type `binary-helix help` for more information.")
+	// /* Reverse Complement */
+	// if strings.ToLower(arg[1]) == "reverse-complement" {
+	// 	if len(arg) > 3 {
+	// 		fmt.Println("FAIL:\t Please provide proper list of arguments!")
+	// 		fmt.Println("\t Type `binary-helix help` for more information.")
 
-			return
-		}
+	// 		return
+	// 	}
 
-		path := arg[2]
-		// p := ""
+	// 	path := arg[2]
+	// 	// p := ""
 
-		_, processed, _ := workers.Reader(path)
-		out := analyser.ReverseComplement(string(processed))
-		fmt.Println("OUTPUT:\t")
-		fmt.Println("\t ", out)
-	}
+	// 	_, processed, _ := workers.Reader(path)
+	// 	out := analyser.ReverseComplement(string(processed))
+	// 	fmt.Println("OUTPUT:\t")
+	// 	fmt.Println("\t ", out)
+	// }
 
-	/* Exact Match (Node) */
-	if strings.ToLower(arg[1]) == "exact-match-node" {
-		if len(arg) != 4 {
-			fmt.Println("FAIL:\t Please provide proper list of arguments!")
-			fmt.Println("\t Type `binary-helix help` for more information.")
+	// /* Exact Match (Node) */
+	// if strings.ToLower(arg[1]) == "exact-match-node" {
+	// 	if len(arg) != 4 {
+	// 		fmt.Println("FAIL:\t Please provide proper list of arguments!")
+	// 		fmt.Println("\t Type `binary-helix help` for more information.")
 
-			return
-		}
+	// 		return
+	// 	}
 
-		path := arg[2]
-		p := arg[3]
+	// 	path := arg[2]
+	// 	p := arg[3]
 
-		fileExt, processed, lineCount := workers.Reader(path)
-		splits := workers.Splitter(fileExt, processed, lineCount)
-		workers.Carrier(splits, utils.AnalyserList[3], p)
-	}
+	// 	fileExt, processed, lineCount := workers.Reader(path)
+	// 	splits := workers.Splitter(fileExt, processed, lineCount)
+	// 	workers.Carrier(splits, utils.AnalyserList[3], p)
+	// }
 
-	/* Exact Match */
-	if strings.ToLower(arg[1]) == "exact-match" {
-		if len(arg) != 4 {
-			fmt.Println("FAIL:\t Please provide proper list of arguments!")
-			fmt.Println("\t Type `binary-helix help` for more information.")
+	// /* Exact Match */
+	// if strings.ToLower(arg[1]) == "exact-match" {
+	// 	if len(arg) != 4 {
+	// 		fmt.Println("FAIL:\t Please provide proper list of arguments!")
+	// 		fmt.Println("\t Type `binary-helix help` for more information.")
 
-			return
-		}
+	// 		return
+	// 	}
 
-		path := arg[2]
-		p := arg[3]
+	// 	path := arg[2]
+	// 	p := arg[3]
 
-		_, processed, _ := workers.Reader(path)
-		out := analyser.ExactMatch(p, string(processed))
-		fmt.Println("OUTPUT:\t")
-		fmt.Println("\t ", out)
-	}
+	// 	_, processed, _ := workers.Reader(path)
+	// 	out := analyser.ExactMatch(p, string(processed))
+	// 	fmt.Println("OUTPUT:\t")
+	// 	fmt.Println("\t ", out)
+	// }
 
 	/* Longest Common Prefix */
 	// if strings.ToLower(arg[1]) == "longest-common-prefix" {
@@ -377,49 +377,55 @@ func main() {
 		fmt.Println("")
 	}
 
-	/* K-Mer Index */
-	if strings.ToLower(arg[1]) == "k-mer" {
-		if len(arg) != 5 {
-			fmt.Println("FAIL:\t Please provide proper list of arguments!")
-			fmt.Println("\t Type `binary-helix help` for more information.")
+	// /* K-Mer Index */
+	// if strings.ToLower(arg[1]) == "k-mer" {
+	// 	if len(arg) != 5 {
+	// 		fmt.Println("FAIL:\t Please provide proper list of arguments!")
+	// 		fmt.Println("\t Type `binary-helix help` for more information.")
 
-			return
-		}
+	// 		return
+	// 	}
 
-		path := arg[2]
-		from, err_1 := utils.Conv_StrToInt(arg[3])
-		to, err_2 := utils.Conv_StrToInt(arg[4])
+	// 	path := arg[2]
+	// 	from, err_1 := utils.Conv_StrToInt(arg[3])
+	// 	to, err_2 := utils.Conv_StrToInt(arg[4])
 
-		if err_1 != nil || err_2 != nil {
-			fmt.Println("FAIL:\t The last 2 arguments must be integers.")
-			fmt.Println("\t They note `from` and `to` respectively, of the look-up-table you want to explore.")
+	// 	if err_1 != nil || err_2 != nil {
+	// 		fmt.Println("FAIL:\t The last 2 arguments must be integers.")
+	// 		fmt.Println("\t They note `from` and `to` respectively, of the look-up-table you want to explore.")
 
-			return
-		}
+	// 		return
+	// 	}
 
-		fileExt, processed, lineCount := workers.Reader(path)
-		splits := workers.Splitter(fileExt, processed, lineCount)
+	// 	fileExt, processed, lineCount := workers.Reader(path)
+	// 	splits := workers.Splitter(fileExt, processed, lineCount)
 
-		var wg sync.WaitGroup
-		var mutex sync.Mutex
+	// 	// var wg sync.WaitGroup
+	// 	// var mutex sync.Mutex
 
-		isA := make([]analyser.IndexArt, len(splits))
+	// 	isA := make([]analyser.IndexArt, len(splits))
 
-		for i, s := range splits {
-			wg.Add(1)
-			go func() {
-				defer wg.Done()
-				ia := analyser.ConstructIA(s, 2)
+	// 	for i, s := range splits {
+	// 		// wg.Add(1)
+	// 		// go func() {
+	// 		// defer wg.Done()
+	// 		ia := analyser.ConstructIA(s, 2)
 
-				mutex.Lock()
-				fmt.Println("\nK-MER INDEX for split:", i+1)
-				fmt.Println(ia.I[from:to])
-				isA = append(isA, ia)
-				mutex.Unlock()
-			}()
-			wg.Wait()
-		}
-	}
+	// 		// mutex.Lock()
+	// 		fmt.Printf("\nK-MER INDEX [ %v ]\n", i+1)
+	// 		// fmt.Println(ia.I[from:to])
+	// 		fmt.Println()
+	// 		// fmt.Printf("\tIndex: %v\n", ia.I[from:to])
+	// 		fmt.Print("\t")
+	// 		for _, output := range ia.I[from:to] {
+	// 			fmt.Print(" ", output)
+	// 		}
+	// 		fmt.Println()
+
+	// 		isA = append(isA, ia)
+	// 	}
+	// 	fmt.Println()
+	// }
 
 }
 
