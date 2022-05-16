@@ -183,6 +183,7 @@ func Arg_Checker(arg []string) {
 				fmt.Printf("\nFAIL:\t Invalid argument length! The `complement` command expects 1 arguments:\n")
 				fmt.Println()
 				fmt.Printf("\t\t 1. Path to a `.fa` file containing reference genome.\n")
+				fmt.Println()
 				return
 			case 1:
 				fmt.Printf("\nFAIL:\t Invalid argument! First argument of the `complement` command must be path to a `.fa` file.\n")
@@ -201,6 +202,7 @@ func Arg_Checker(arg []string) {
 				fmt.Printf("\nFAIL:\t Invalid argument length! The `complement` command expects 1 arguments:\n")
 				fmt.Println()
 				fmt.Printf("\t\t 1. Path to a `.fa` file containing reference genome.\n")
+				fmt.Println()
 				return
 			case 1:
 				fmt.Printf("\nFAIL:\t Invalid argument! First argument of the `complement` command must be path to a `.fa` file.\n")
@@ -219,6 +221,7 @@ func Arg_Checker(arg []string) {
 				fmt.Printf("\nFAIL:\t Invalid argument length! The `reverse-complement` command expects 1 arguments:\n")
 				fmt.Println()
 				fmt.Printf("\t\t 1. Path to a `.fa` file containing reference genome.\n")
+				fmt.Println()
 				return
 			case 1:
 				fmt.Printf("\nFAIL:\t Invalid argument! First argument of the `reverse-complement` command must be path to a `.fa` file.\n")
@@ -237,6 +240,7 @@ func Arg_Checker(arg []string) {
 				fmt.Printf("\nFAIL:\t Invalid argument length! The `reverse-complement-node` command expects 1 arguments:\n")
 				fmt.Println()
 				fmt.Printf("\t\t 1. Path to a `.fa` file containing reference genome.\n")
+				fmt.Println()
 				return
 			case 1:
 				fmt.Printf("\nFAIL:\t Invalid argument! First argument of the `reverse-complement-node` command must be path to a `.fa` file.\n")

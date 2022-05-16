@@ -5,6 +5,7 @@ import (
 	"net/rpc"
 	"sync"
 
+	"github.com/iktefish/binary-helix/blockchain"
 	"github.com/iktefish/binary-helix/schema"
 	"github.com/iktefish/binary-helix/utils"
 )
@@ -145,6 +146,16 @@ func TaskServer(s []string, cId string, aArt []schema.Analysis, extra string) {
 				Merger(cId, aArt[n], response)
 				mu.Lock()
 				responses = append(responses, response)
+
+				chain := blockchain.InitBlockChain()
+				chain.AddBlock(cId, aArt[n].TargetIP_Port)
+				fmt.Printf("\n")
+				fmt.Printf("\t %v:\n\n", node.NodeName)
+				for i, block := range chain.Blocks {
+					fmt.Printf("\t\tINDEX %v |--> \tblock.C_Id\t~~>\t%x\n", i, block.C_Id)
+					fmt.Printf("\t\tINDEX %v |--> \tblock.Ip_Port\t~~>\t%x\n", i, block.Ip_Port)
+					fmt.Printf("\t\tINDEX %v |--> \tblock.Hash\t~~>\t%x\n", i, block.Hash)
+				}
 				mu.Unlock()
 			}
 
@@ -157,6 +168,16 @@ func TaskServer(s []string, cId string, aArt []schema.Analysis, extra string) {
 				Merger(cId, aArt[n], response)
 				mu.Lock()
 				responses = append(responses, response)
+
+				chain := blockchain.InitBlockChain()
+				chain.AddBlock(cId, aArt[n].TargetIP_Port)
+				fmt.Printf("\n")
+				fmt.Printf("\t %v:\n\n", node.NodeName)
+				for i, block := range chain.Blocks {
+					fmt.Printf("\t\tINDEX %v |--> \tblock.C_Id\t~~>\t%x\n", i, block.C_Id)
+					fmt.Printf("\t\tINDEX %v |--> \tblock.Ip_Port\t~~>\t%x\n", i, block.Ip_Port)
+					fmt.Printf("\t\tINDEX %v |--> \tblock.Hash\t~~>\t%x\n", i, block.Hash)
+				}
 				mu.Unlock()
 			}
 
@@ -169,6 +190,16 @@ func TaskServer(s []string, cId string, aArt []schema.Analysis, extra string) {
 				Merger(cId, aArt[n], response)
 				mu.Lock()
 				responses = append(responses, response)
+
+				chain := blockchain.InitBlockChain()
+				chain.AddBlock(cId, aArt[n].TargetIP_Port)
+				fmt.Printf("\n")
+				fmt.Printf("\t %v:\n\n", node.NodeName)
+				for i, block := range chain.Blocks {
+					fmt.Printf("\t\tINDEX %v |--> \tblock.C_Id\t~~>\t%x\n", i, block.C_Id)
+					fmt.Printf("\t\tINDEX %v |--> \tblock.Ip_Port\t~~>\t%x\n", i, block.Ip_Port)
+					fmt.Printf("\t\tINDEX %v |--> \tblock.Hash\t~~>\t%x\n", i, block.Hash)
+				}
 				mu.Unlock()
 			}
 
@@ -181,6 +212,16 @@ func TaskServer(s []string, cId string, aArt []schema.Analysis, extra string) {
 				Merger(cId, aArt[n], response)
 				mu.Lock()
 				responses = append(responses, response)
+
+				chain := blockchain.InitBlockChain()
+				chain.AddBlock(cId, aArt[n].TargetIP_Port)
+				fmt.Printf("\n")
+				fmt.Printf("\t %v:\n\n", node.NodeName)
+				for i, block := range chain.Blocks {
+					fmt.Printf("\t\tINDEX %v |--> \tblock.C_Id\t~~>\t%x\n", i, block.C_Id)
+					fmt.Printf("\t\tINDEX %v |--> \tblock.Ip_Port\t~~>\t%x\n", i, block.Ip_Port)
+					fmt.Printf("\t\tINDEX %v |--> \tblock.Hash\t~~>\t%x\n", i, block.Hash)
+				}
 				mu.Unlock()
 			}
 
