@@ -34,6 +34,7 @@ var Valid_Args []string = []string{
 	"blockchain-state",
 	"restore-broken-computation",
 	"qual",
+	"unregister-node",
 }
 
 // Take in the list of arguments passed by user and execute helper
@@ -449,6 +450,27 @@ func Arg_Checker(arg []string) {
 		}
 		return
 	}
+
+	// Unregister Nodes
+	if strings.ToLower(arg[1]) == Valid_Args[20] {
+		catch_bool, catch_code := helper_unregister_node(arg)
+		if catch_bool != true {
+			switch catch_code {
+			case 0:
+				fmt.Printf("\nFAIL:\t Invalid argument length! The `unregister-node` command expects 1 argument:\n")
+				fmt.Println()
+				fmt.Printf("\t\t 1. Name of the node you want to unregister.\n")
+				fmt.Println()
+				return
+			case 1:
+				fmt.Printf("\nFAIL:\t No node named '%v' is registered.\n", arg[2])
+				fmt.Println()
+				return
+			}
+			return
+		}
+		return
+	}
 }
 
 // Executing binary with no arguments is an alias to `binary-helix help`.
@@ -519,7 +541,8 @@ func helper_register_node(arg []string) bool {
 	out = client.RegisterNode(ip_port, node_name)
 
 	if out != true {
-		fmt.Println("FAIL:\t Registration failed!")
+		fmt.Println("\nFAIL:\t Registration failed! An individual host cannot register as more than 1 node.")
+		fmt.Println()
 	}
 
 	return true
@@ -533,6 +556,21 @@ func helper_check_nodes(arg []string) bool {
 
 	client.Check_Server()
 	return true
+}
+
+// Unregister a registered node.
+func helper_unregister_node(arg []string) (bool, int) {
+	if len(arg) != 3 {
+		return false, 0
+	}
+
+	node_name := arg[2]
+	if utils.Verify_Node_Exists(node_name) != true {
+		return false, 1
+	}
+
+	utils.Unregister_Node(node_name)
+	return true, 0
 }
 
 // Performs Boyer Moore exact pattern match on an input genome.

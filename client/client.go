@@ -45,7 +45,7 @@ func Check_Server() {
 		var response string
 		client.Call("API.ImAlive", isAlive, &response)
 
-		fmt.Printf("\t • %v \t~~> %v\n", nodes[i].TargetIP_Port, response)
+		fmt.Printf("\t • NAME: %v\t ADDRESS: %v \t~~> %v\n", nodes[i].NodeName, nodes[i].TargetIP_Port, response)
 	}
 	fmt.Println()
 }
@@ -75,8 +75,6 @@ func RegisterNode(ip_port string, node_name string) bool {
 		return false
 	}
 
-	fmt.Printf("Response from %v\t ~~> %v\n", ip_port, response)
-
 	dbclient, ctx := utils.ConnectDb()
 	defer dbclient.Disconnect(ctx)
 
@@ -91,7 +89,6 @@ func RegisterNode(ip_port string, node_name string) bool {
 	}
 
 	if utils.Verify_NodeNoDup(ip_port, node_name) != true {
-		fmt.Println("FAIL:\t An individual host cannot register as more then 1 node!")
 		return false
 	}
 
