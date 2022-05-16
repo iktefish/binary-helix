@@ -23,6 +23,14 @@ func Check_Server() {
 	var err error
 
 	nodeCount := utils.Get_ActiveNodeCount()
+	if nodeCount == 0 {
+		fmt.Println("\nOUTPUT:")
+		fmt.Println("\t There are no registered node.")
+		fmt.Println("\t To register a node, run `binary-helix register-node IP:PORT NODE_NAME`.")
+		fmt.Println()
+		return
+	}
+
 	var nodes []schema.Nodes
 
 	for i := 0; i <= nodeCount; i++ {

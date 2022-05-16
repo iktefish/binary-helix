@@ -69,7 +69,7 @@ func Arg_Checker(arg []string) {
 	// Register node
 	if strings.ToLower(arg[1]) == Valid_Args[2] {
 		if helper_register_node(arg) != true {
-			fmt.Printf("\nFAIL:\t Invalid argument length! The `register-node` command expects 'IP_Address:Port' and 'Node name'.\n")
+			fmt.Printf("\nFAIL:\t Invalid argument length! The `register-node` command expects 'IP:PORT' and 'NODE_NAME'.\n")
 			fmt.Println("\t Type `binary-helix help` for more information.")
 			fmt.Println()
 			return
@@ -502,8 +502,9 @@ func helper_help(arg []string) bool {
 	fmt.Println("COMMANDS:")
 	fmt.Println("")
 	fmt.Println("\t binary-helix help\t\t\t\t\t--> Outputs information on how to use this CLI")
-	fmt.Println("\t binary-helix register-node IP:PORT NAME\t\t--> Registers your device as a server-node to donate computation.")
-	fmt.Println("\t binary-helix check-nodes\t\t\t\t--> Outputs the Complement of the DNA of an input .fa file.")
+	fmt.Println("\t binary-helix register-node IP:PORT NODE_NAME\t\t--> Registers your device as a server-node to donate computation.")
+	fmt.Println("\t binary-helix unregister-node NAME\t\t\t--> Unregisters your device from being a server-node.")
+	fmt.Println("\t binary-helix check-nodes\t\t\t\t--> Pings all registered nodes and checks their status.")
 	fmt.Println("\t binary-helix boyer-moore FILE PATTERN\t\t\t--> Performs Boyer-Moors searching algorithm on an input .fastq file")
 	fmt.Println("\t binary-helix boyer-moore-node FILE PATTERN\t\t--> Performs Boyer-Moors searching algorithm on an input .fastq file utilizing cluster.")
 	fmt.Println("\t binary-helix complement FILE\t\t\t\t--> Outputs the Complement of the DNA of an input .fa file.")
@@ -517,7 +518,7 @@ func helper_help(arg []string) bool {
 	fmt.Println("\t binary-helix total-bases-of-each FILE \t\t\t--> Outputs the Total Number of Each Base in the DNA read has with an input .fa file.")
 	fmt.Println("\t binary-helix serve\t\t\t\t\t--> Starts the server on port `4040`, turning your device into a supercomputer node.")
 	fmt.Println("\t binary-helix qual FILE OPTION\t\t\t\t--> Outputs the quality scores, encoded in format provided in option, of .fastq file.")
-	fmt.Println("\t binary-helix admin_clear-db\t\t\t\t--> Clear EVERY item on the database. USE WITH CAUTION!")
+	// fmt.Println("\t binary-helix admin_clear-db\t\t\t\t--> Clear EVERY item on the database. USE WITH CAUTION!")
 	fmt.Println("")
 
 	return true
