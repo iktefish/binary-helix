@@ -433,9 +433,8 @@ func Arg_Checker(arg []string) {
 				fmt.Println()
 				fmt.Printf("\t\t 1. Path to a `.fastq`.\n")
 				fmt.Printf("\t\t 2. Option: \n")
-				fmt.Println()
-				fmt.Println("\t\t\t 'q' for standard Q values")
-				fmt.Println("\t\t\t 'p' for standard Phred33 values")
+				fmt.Println("\t\t\t • Either 'q' for standard Q values")
+				fmt.Println("\t\t\t • Or 'p' for standard Phred33 values")
 				fmt.Println()
 				return
 			case 1:
@@ -445,8 +444,8 @@ func Arg_Checker(arg []string) {
 			case 2:
 				fmt.Printf("\nFAIL:\t Invalid argument! Second argument of the `qual` command must be format option.\n")
 				fmt.Println()
-				fmt.Println("\t\t 'q' for standard Q values")
-				fmt.Println("\t\t 'p' for standard Phred33 values")
+				fmt.Println("\t\t Either 'q' for standard Q values")
+				fmt.Println("\t\t Or 'p' for standard Phred33 values")
 				fmt.Println()
 				return
 			}
@@ -847,22 +846,16 @@ func helper_k_mer(arg []string) (bool, int) {
 		return false, 3
 	}
 
-	file_ext, processed, line_count := workers.Reader(path)
-	splits := workers.Splitter(file_ext, processed, line_count)
+	_, processed, _ := workers.Reader(path)
 
-	isA := make([]analyser.IndexArt, len(splits))
-	for i, s := range splits {
-		ia := analyser.ConstructIA(s, 2)
-		fmt.Printf("\nK-MER INDEX [ %v ]\n", i+1)
-		fmt.Println()
-		fmt.Print("\t")
-		for _, output := range ia.I[from:to] {
-			fmt.Print(" ", output)
-		}
-		fmt.Println()
-		isA = append(isA, ia)
-	}
+	ia := analyser.ConstructIA(string(processed), 2)
+	fmt.Printf("\nOUTPUT:\n")
 	fmt.Println()
+	fmt.Print("\t")
+	for _, output := range ia.I[from:to] {
+		fmt.Print(" ", output)
+	}
+	fmt.Println("\n")
 	return true, 0
 }
 
