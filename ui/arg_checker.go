@@ -433,8 +433,8 @@ func Arg_Checker(arg []string) {
 				fmt.Println()
 				fmt.Printf("\t\t 1. Path to a `.fastq`.\n")
 				fmt.Printf("\t\t 2. Option: \n")
-				fmt.Println("\t\t\t • Either 'q' for standard Q values")
-				fmt.Println("\t\t\t • Or 'p' for standard Phred33 values")
+				fmt.Println("\t\t    ... either 'q' for standard Q values")
+				fmt.Println("\t\t    ... or 'p' for standard Phred33 values")
 				fmt.Println()
 				return
 			case 1:
