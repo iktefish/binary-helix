@@ -62,11 +62,6 @@ func (B *BoyerMoore) Bad_Character_Rule(i int, c string) int {
 
 	ci := B.AMap[c]
 
-	/* ASSERT */
-	// if i >= (B.Bad_Char[i][ci] - 1) {
-	// 	log.Fatal("FATAL: Corrupt Input!")
-	// }
-
 	return i - (B.Bad_Char[i][ci] - 1)
 }
 
@@ -105,11 +100,6 @@ func (B *BoyerMoore) Match_Skip() int {
    Use Z algorithm (Gusfield theorem 1.4.1) to preprocess s.
 */
 func z_Array(s string) []int {
-
-	/* ASSERT */
-	// if len(s) <= 1 {
-	// 	log.Fatal("FAIL: Wrong length of input!")
-	// }
 
 	var z = []int{len(s)}
 
@@ -217,7 +207,6 @@ func n_Array(s string) []int {
 */
 func big_l_Prime_Array(p string, n []int) []int {
 	var lp []int
-	// lp = append(lp, len(p))
 	for i := range p {
 		if i+1 <= len(p) {
 			lp = append(lp, 0)
@@ -306,8 +295,6 @@ func good_Suffix_Table(p string) ([]int, []int, []int) {
    by character.
 */
 func dense_Bad_Char_Tab(p string, amap map[string]int) [][]int {
-	// m := make(map[string]int)
-
 	var tab [][]int
 
 	var nxt []int
@@ -318,8 +305,6 @@ func dense_Bad_Char_Tab(p string, amap map[string]int) [][]int {
 	}
 
 	for i, c := range p[0:] {
-
-		/* TODO: Assert that `c` is present in `amap` */
 
 		conduit := make([]int, len(nxt))
 		copy(conduit, nxt)

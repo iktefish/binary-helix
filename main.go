@@ -856,7 +856,7 @@ func helper_k_mer(arg []string) (bool, int) {
 	for _, output := range ia.I[from:to] {
 		fmt.Print(" ", output)
 	}
-	fmt.Println("\n")
+	fmt.Print("\n\n")
 	return true, 0
 }
 

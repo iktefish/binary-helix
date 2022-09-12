@@ -37,7 +37,7 @@ $ go test
 To benchmark code:
 
 ```sh
-$ go test -run=XXX -cpuprofile cpu.prof -bench .                                                                                                          go
+$ go test -run=XXX -cpuprofile cpu.prof -bench .
 ```
 
 ## Docker Container
